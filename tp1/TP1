@@ -1,0 +1,94 @@
+
+Questions à poser:
+
+- dans PibusSimpleMaster, pourquoi on a un état init si on en sort dans tous les cas au cycle d'après ? pourquoi transition A : 1 ?
+- dans dans l'automate pibusSimpleMaster, à quoi sert CMD_EN ?
+
+
+Q1: Automate PibusSimpleRam
+
+transitions:
+
+F: non SEL
+
+- pour Write : 
+A: SEL and DELAY and non READ
+U': non GO (and non READ)
+U: GO
+Z: non SEL
+B: SEL and non DELAY
+X: SEL and GO
+
+- pour Read :
+D: SEL and DELAY and READ
+V': non GO
+V: GO
+T: non SEL
+C: SEL and non DELAY
+S: SEL and GO
+
+- pour les erreurs d'adresse:
+Y: non ADR_OK
+E: non ADR_OK
+R: non ADR_OK
+G: ADR_OK
+
+
+Q : pibusSimpleMaster -> 4 étapes
+
+transitions:
+
+ÉTAPE 1
+A: 1
+B': non GNT
+B: GNT
+C: RDY
+D': non RDY
+D: RDY
+E': non RDY
+E: RDY
+F': non RDY
+F: RDY
+G': non RDY
+G: RDY
+
+ÉTAPE 2
+H': non GNT
+H: GNT
+I: 1
+J: non RDY
+L: RDY and non LAST
+K: RDY and LAST
+
+ÉTAPE 3
+M': non GNT
+M: GNT
+N: 1
+O: non RDY
+Q: RDY and NUL
+P: RDY and non NUL
+
+ÉTAPE 4
+R': non GNT
+R: GNT
+S: 1
+T': non RDY
+T: RDY
+
+
+Q E: PibusSegBcu
+
+E1: transitions
+
+X': non REQ
+X: REQ
+Y': non LOCK
+Y: LOCK
+Z': LOCK
+Z: non LOCK
+J: non ACK
+L: ACK.REQ
+K: ACK. non REQ
+
+
+Q E3: l'allocation est réalisé dans l'état IDLE et dans l'état DT afin d'économiser un cycle. Dans l'état DT il y a peut-être un maître qui attend l'accés au bus et donc au lieu de repasser à l'état IDLE pour ensuite faire l'allocation, on fait l'allocation directement.
