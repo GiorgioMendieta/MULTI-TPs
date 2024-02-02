@@ -209,14 +209,18 @@ int _main(int argc, char *argv[])
 
     segtable.setMSBnumber(8);
 
+    // Name, Base address, Size, Target, Cachable?
+    // ROM
     segtable.addSegment("seg_reset", SEG_RESET_BASE, SEG_RESET_SIZE, ROM_INDEX, true);
-    segtable.addSegment("seg_kcode", TO BE COMPLETED);
-    segtable.addSegment("seg_kdata", TO BE COMPLETED);
-    segtable.addSegment("seg_kunc", TO BE COMPLETED);
-    segtable.addSegment("seg_code", TO BE COMPLETED);
-    segtable.addSegment("seg_data", TO BE COMPLETED);
-    segtable.addSegment("seg_stack", TO BE COMPLETED);
-    segtable.addSegment("seg_tty", TO BE COMPLETED);
+    // RAM
+    segtable.addSegment("seg_kcode", SEG_KCODE_BASE, SEG_KCODE_SIZE, RAM_INDEX, true);
+    segtable.addSegment("seg_kdata", SEG_KDATA_BASE, SEG_KDATA_SIZE, RAM_INDEX, true);
+    segtable.addSegment("seg_kunc", SEG_KUNC_BASE, SEG_KUNC_SIZE, RAM_INDEX, false); // Uncacheable data
+    segtable.addSegment("seg_code", SEG_CODE_BASE, SEG_CODE_SIZE, RAM_INDEX, true);  // Cacheable data
+    segtable.addSegment("seg_data", SEG_DATA_BASE, SEG_DATA_SIZE, RAM_INDEX, true);
+    segtable.addSegment("seg_stack", SEG_STACK_BASE, SEG_STACK_SIZE, RAM_INDEX, true);
+    // RAM
+    segtable.addSegment("seg_tty", SEG_TTY_BASE, SEG_TTY_SIZE, TTY_INDEX, false);
 
     /////////////////////////////////////////////////////////
     //	INSTANCIATED  COMPONENTS
