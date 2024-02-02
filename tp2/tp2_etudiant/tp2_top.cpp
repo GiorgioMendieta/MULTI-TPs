@@ -226,7 +226,7 @@ int _main(int argc, char *argv[])
     //	INSTANCIATED  COMPONENTS
     /////////////////////////////////////////////////////////
 
-    soclib::common::Loader loader(TO BE COMPLETED);
+    soclib::common::Loader loader("./soft/sys.ld", "./soft/app.ld");
 
     PibusSegBcu bcu("bcu", segtable, 1, 3, 100);
     PibusMips32Xcache proc("proc", segtable, 0,
