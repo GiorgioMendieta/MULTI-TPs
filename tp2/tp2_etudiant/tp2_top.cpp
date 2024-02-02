@@ -27,29 +27,30 @@
 #include <stdarg.h>
 
 // segment definition
-#define SEG_RESET_BASE TO BE COMPLETED
-#define SEG_RESET_SIZE TO BE COMPLETED
+#define SEG_RESET_BASE 0xBFC00000
+#define SEG_RESET_SIZE 4096
 
-#define SEG_KCODE_BASE TO BE COMPLETED
-#define SEG_KCODE_SIZE TO BE COMPLETED
+// Protected
+#define SEG_KCODE_BASE 0x80000000
+#define SEG_KCODE_SIZE 16384
+// Protected
+#define SEG_KDATA_BASE 0x82000000
+#define SEG_KDATA_SIZE 65536
+// Protected
+#define SEG_KUNC_BASE 0x81000000
+#define SEG_KUNC_SIZE 4096
 
-#define SEG_KDATA_BASE TO BE COMPLETED
-#define SEG_KDATA_SIZE TO BE COMPLETED
+#define SEG_CODE_BASE 0x00400000
+#define SEG_CODE_SIZE 16384
 
-#define SEG_KUNC_BASE TO BE COMPLETED
-#define SEG_KUNC_SIZE TO BE COMPLETED
+#define SEG_DATA_BASE 0x01000000
+#define SEG_DATA_SIZE 16384
 
-#define SEG_DATA_BASE TO BE COMPLETED
-#define SEG_DATA_SIZE TO BE COMPLETED
+#define SEG_STACK_BASE 0x02000000
+#define SEG_STACK_SIZE 16384
 
-#define SEG_CODE_BASE TO BE COMPLETED
-#define SEG_CODE_SIZE TO BE COMPLETED
-
-#define SEG_STACK_BASE TO BE COMPLETED
-#define SEG_STACK_SIZE TO BE COMPLETED
-
-#define SEG_TTY_BASE TO BE COMPLETED
-#define SEG_TTY_SIZE TO BE COMPLETED
+#define SEG_TTY_BASE 0x90000000
+#define SEG_TTY_SIZE 16
 
 // Taget indexes definition
 #define ROM_INDEX 0
@@ -65,22 +66,22 @@ int _main(int argc, char *argv[])
     ///////////////////////////////////////////////////////////////////////////////////
     //   PARAMETERS
     ///////////////////////////////////////////////////////////////////////////////////
-    size_t ncycles = 1000000000;           // number of simulated cycles
-    char sys_path[256] = "soft/sys.bin";   // pathname for the system binary code
-    char app_path[256] = "soft/app.bin";   // pathname for the application binary code
-    bool debug_ok = false;                 // debug activated
-    size_t from_cycle = 0;                 // debug start cycle
-    size_t ram_latency = 0;                // ram latency
-    bool snoop_active = false;             // snoop activation
-    size_t icache_ways = TO BE COMPLETED;  // instruction cache number of ways
-    size_t icache_sets = TO BE COMPLETED;  // instruction cache number of sets
-    size_t icache_words = TO BE COMPLETED; // instruction cache number of words per line
-    size_t dcache_ways = TO BE COMPLETED;  // data cache number of ways
-    size_t dcache_sets = TO BE COMPLETED;  // data cache number of sets
-    size_t dcache_words = TO BE COMPLETED; // data cache number of words per line
-    size_t wbuf_depth = TO BE COMPLETED;   // write buffer depth
-    bool stats_ok = false;                 // statistics activation
-    size_t stats_period = 0;               // statistics display period
+    size_t ncycles = 1000000000;         // number of simulated cycles
+    char sys_path[256] = "soft/sys.bin"; // pathname for the system binary code
+    char app_path[256] = "soft/app.bin"; // pathname for the application binary code
+    bool debug_ok = false;               // debug activated
+    size_t from_cycle = 0;               // debug start cycle
+    size_t ram_latency = 0;              // ram latency
+    bool snoop_active = false;           // snoop activation
+    size_t icache_ways = 1;              // instruction cache number of ways
+    size_t icache_sets = 64;             // instruction cache number of sets
+    size_t icache_words = 4;             // instruction cache number of words per line
+    size_t dcache_ways = 1;              // data cache number of ways
+    size_t dcache_sets = 64;             // data cache number of sets
+    size_t dcache_words = 4;             // data cache number of words per line
+    size_t wbuf_depth = 8;               // write buffer depth
+    bool stats_ok = false;               // statistics activation
+    size_t stats_period = 0;             // statistics display period
 
     std::cout << std::endl;
     std::cout << "********************************************************" << std::endl;
