@@ -44,7 +44,7 @@ app : make
 	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_APP_PATH) -I. -c -o $(WORKDIR)/app/stdio.o $(GIET_APP_PATH)/stdio.c
 
 # Generate app.bin
-	$(LD) -o $(WORKDIR)/app/app.bin -T app.ld $(WORKDIR)/app/*.o
+	$(LD) -o $(WORKDIR)/app/app.bin -T $(SOFTDIR)/app.ld $(WORKDIR)/app/*.o
 
 # Dissassemble sys.bin and save to text file
 	@echo "Saved dissassembled app.bin file to /app.bin.txt"
