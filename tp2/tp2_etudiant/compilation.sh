@@ -13,6 +13,9 @@ export CC=/opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-gcc
 export LD=/opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-ld
 export DU=/opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-objdump
 
+# Change directory 
+cd ./soft
+
 # Compile ASM files
 $AS -g -mips32 -o reset.o reset.s
 $AS -g -mips32 -o giet.o $GIET_SYS_PATH/giet.s
