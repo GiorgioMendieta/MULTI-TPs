@@ -23,15 +23,15 @@ make :
 
 # Compile ASM files
 	$(AS) -g -mips32 -o $(WORKDIR)/reset.o $(SOFTDIR)/reset.s
-	$(AS) -g -mips32 -o $(WORKDIR)/giet.o $(GIET_SYS_PATH)/$(SOFTDIR)/giet.s
+	$(AS) -g -mips32 -o $(WORKDIR)/giet.o $(GIET_SYS_PATH)/giet.s
 	
 # Compile C files
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/drivers.o $(GIET_SYS_PATH)/$(SOFTDIR)/drivers.c
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/common.o $(GIET_SYS_PATH)/$(SOFTDIR)/common.c
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/ctx_handler.o $(GIET_SYS_PATH)/$(SOFTDIR)/ctx_handler.c
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/irq_handler.o $(GIET_SYS_PATH)/$(SOFTDIR)/irq_handler.c
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/sys_handler.o $(GIET_SYS_PATH)/$(SOFTDIR)/sys_handler.c
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/exc_handler.o $(GIET_SYS_PATH)/$(SOFTDIR)/exc_handler.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/drivers.o $(GIET_SYS_PATH)/drivers.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/common.o $(GIET_SYS_PATH)/common.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/ctx_handler.o $(GIET_SYS_PATH)/ctx_handler.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/irq_handler.o $(GIET_SYS_PATH)/irq_handler.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/sys_handler.o $(GIET_SYS_PATH)/sys_handler.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/exc_handler.o $(GIET_SYS_PATH)/exc_handler.c
 
 app : make
 # Create temporal sub directory
@@ -39,7 +39,7 @@ app : make
 
 # Compile stdio.c et main.c in ./soft
 	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_APP_PATH) -I. -c -o $(WORKDIR)/app/main.o $(SOFTDIR)/main.c
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_APP_PATH) -I. -c -o $(WORKDIR)/app/stdio.o $(GIET_APP_PATH)/$(SOFTDIR)/stdio.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_APP_PATH) -I. -c -o $(WORKDIR)/app/stdio.o $(GIET_APP_PATH)/stdio.c
 
 # Generate app.bin
 	$(LD) -o $(WORKDIR)/app/app.bin -T app.ld $(WORKDIR)/app/*.o
