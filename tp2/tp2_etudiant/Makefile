@@ -17,6 +17,8 @@ SOFTDIR = ./soft
 CCFLAGS = -Wall -mno-gpopt -ffreestanding -mips32
 CPPFLAGS = -I$(GIET_SYS_PATH) -I$(SOFTDIR)
 ASMFLAGS = -g -mips32
+# Linker flags
+LDFLAGS = -o
 
 .PHONY: clean giet app sys
 
@@ -42,24 +44,27 @@ giet :
 
 app :
 	@echo "INFO: Building app.bin"
-
-# Compile stdio.c et main.c in ./soft/
-	$(GCC) $(CCFLAGS) $(CPPFLAGS) -c -o $(WORKDIR)/main.o main.c
-	$(GCC) $(CCFLAGS) $(CPPFLAGS) -c -o $(WORKDIR)/stdio.o $(GIET_APP_PATH)/stdio.c
+# Create temporal sub directory
+	@mkdir -p $(WORKDIR)/app
+# Compile stdio.c et main.c
+	$(GCC) $(CCFLAGS) $(CPPFLAGS) -c -o $(WORKDIR)/app/stdio.o $(GIET_APP_PATH)/stdio.c
+	$(GCC) $(CCFLAGS) $(CPPFLAGS) -c -o $(WORKDIR)/app/main.o main.c
 
 # Generate app.bin
-	$(LD) -o $(WORKDIR)/app/app.bin -T $(SOFTDIR)/app.ld $(WORKDIR)/app/*.o
+	$(LD) $(LDFLAGS) $(WORKDIR)/app/app.bin -T $(SOFTDIR)/app.ld $(WORKDIR)/app/*.o
 
 # Dissassemble sys.bin and save to text file
-	$(DU) -D $(WORKDIR)/app/app.bin > $(WORKDIR)/app.bin.txt
+	$(DU) -D $(WORKDIR)/app/app.bin > $(WORKDIR)/app/app.bin.txt
 	@echo "INFO: Saved dissassembled app.bin file to ./work/app.bin.txt"
 
 sys :
 	@echo "INFO: Building sys.bin"
+# Create temporal sub directory
+	@mkdir -p $(WORKDIR)/sys
 # Generate sys.bin
-	$(LD) -o $(WORKDIR)/sys.bin -T $(SOFTDIR)/sys.ld $(WORKDIR)/*.o
+	$(LD) $(LDFLAGS) $(WORKDIR)/sys/sys.bin -T $(SOFTDIR)/sys.ld $(WORKDIR)/sys/*.o
 # Dissassemble sys.bin and save to text file
-	$(DU) -D $(WORKDIR)/sys.bin > $(WORKDIR)/sys.bin.txt
+	$(DU) -D $(WORKDIR)/sys/sys.bin > $(WORKDIR)/sys/sys.bin.txt
 	@echo "INFO: Saved dissassembled sys.bin file to ./work/sys.bin.txt"
 
 clean :
