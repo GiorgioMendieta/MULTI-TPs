@@ -1,0 +1,61 @@
+# Set env variables 
+
+GIET_SYS_PATH = /users/enseig/alain/giet_2011/sys
+GIET_APP_PATH = /users/enseig/alain/giet_2011/app
+AS = /opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-as
+CC = /opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-gcc
+LD = /opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-ld
+DU = /opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-objdump
+
+# Working directory
+WORKDIR = work
+# Source files directory
+SOFTDIR = soft
+
+
+.PHONY: clean
+
+all : clean make app sys
+
+make : 
+# Create temporal work directory
+	@mkdir -p $(WORKDIR)
+
+# Compile ASM files
+	$(AS) -g -mips32 -o $(WORKDIR)/reset.o $(SOFTDIR)/reset.s
+	$(AS) -g -mips32 -o $(WORKDIR)/giet.o $(GIET_SYS_PATH)/$(SOFTDIR)/giet.s
+	
+# Compile C files
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/drivers.o $(GIET_SYS_PATH)/$(SOFTDIR)/drivers.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/common.o $(GIET_SYS_PATH)/$(SOFTDIR)/common.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/ctx_handler.o $(GIET_SYS_PATH)/$(SOFTDIR)/ctx_handler.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/irq_handler.o $(GIET_SYS_PATH)/$(SOFTDIR)/irq_handler.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/sys_handler.o $(GIET_SYS_PATH)/$(SOFTDIR)/sys_handler.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/exc_handler.o $(GIET_SYS_PATH)/$(SOFTDIR)/exc_handler.c
+
+app : make
+# Create temporal sub directory
+	@mkdir -p $(WORKDIR)/app
+
+# Compile stdio.c et main.c in ./soft
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_APP_PATH) -I. -c -o $(WORKDIR)/app/main.o $(SOFTDIR)/main.c
+	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_APP_PATH) -I. -c -o $(WORKDIR)/app/stdio.o $(GIET_APP_PATH)/$(SOFTDIR)/stdio.c
+
+# Generate app.bin
+	$(LD) -o $(WORKDIR)/app/app.bin -T app.ld $(WORKDIR)/app/*.o
+
+# Dissassemble sys.bin and save to text file
+	@echo "Saved dissassembled app.bin file to /app.bin.txt"
+	$(DU) -D $(WORKDIR)/app/app.bin > app.bin.txt
+
+sys : make
+# Create temporal sub directory
+	@mkdir -p $(WORKDIR)/sys
+# Generate sys.bin
+	$(LD) -o $(WORKDIR)/sys/sys.bin -T $(SOFTDIR)/sys.ld $(WORKDIR)/*.o
+# Dissassemble sys.bin and save to text file
+	$(DU) -D $(WORKDIR)/sys.bin > sys.bin.txt
+
+clean :
+# Remove the work directory
+	@rm -rf $(WORKDIR)
