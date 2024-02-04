@@ -7,8 +7,8 @@ __attribute__((constructor)) void main()
 
 	while (1)
 	{
-		tty_puts(s); // This function displays a string on a terminal.
-		tty_getc(c); // This blocking function fetches a single ascii character from a terminal
+		tty_puts(s);  // This function displays a string on a terminal.
+		tty_getc(&c); // This blocking function fetches a single ascii character from a terminal
 	}
 
 } // end main
