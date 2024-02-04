@@ -17,19 +17,19 @@
 	.type   reset, %function
 
 reset:
-       	.set noreorder
+	.set noreorder
 
 # initializes stack pointer
-	la	$29,	0x02000000		# $29 <= seg_stack_base
-	addiu	$29,	16384		# stack size = 16 Kbytes
+	la	$29,		seg_stack_base		# $29 <= seg_stack_base (soft/seg.ld = 0x02000000)
+	addiu	$29,	0x4000		# stack size = 16 Kbytes (0x4000 in hex)
 
 # initializes SR register
-       	li	$26,	0x0000FF13	
-       	mtc0	$26,	$12			# SR <= 0x0000FF13
+	li	$26,	0x0000FF13	
+	mtc0	$26,	$12			# SR <= 0x0000FF13
 
 # jump to main in user mode
 	la	$26,	seg_data_base
-        lw	$26,	0($26)			# get the user code entry point 
+    lw	$26,	0($26)			# get the user code entry point 
 	mtc0	$26,	$14			# write it in EPC register
 	eret
 
