@@ -8,7 +8,6 @@ AS  = /opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-as
 GCC = /opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-gcc
 LD  = /opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-ld
 DU  = /opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-objdump
-
 # Working directory
 WORKDIR = ./work
 # Source files directory
@@ -27,12 +26,10 @@ all : clean giet sys app
 giet : 
 # Create temporal work directory
 	@mkdir -p $(WORKDIR)
-
 # Compile ASM files
 	@echo "INFO: Compiling ASM files"
 	$(AS) $(ASMFLAGS) -o $(WORKDIR)/reset.o $(SOFTDIR)/reset.s
 	$(AS) $(ASMFLAGS) -o $(WORKDIR)/giet.o $(GIET_SYS_PATH)/giet.s
-	
 # Compile C files
 	@echo "INFO: Compiling C files"
 	$(GCC) $(CCFLAGS) $(CPPFLAGS) -c -o $(WORKDIR)/drivers.o     $(GIET_SYS_PATH)/drivers.c
@@ -48,11 +45,9 @@ app :
 	@mkdir -p $(WORKDIR)/app
 # Compile stdio.c et main.c
 	$(GCC) $(CCFLAGS) $(CPPFLAGS) -c -o $(WORKDIR)/app/stdio.o $(GIET_APP_PATH)/stdio.c
-	$(GCC) $(CCFLAGS) $(CPPFLAGS) -c -o $(WORKDIR)/app/main.o main.c
-
+	$(GCC) $(CCFLAGS) $(CPPFLAGS) -c -o $(WORKDIR)/app/main.o $(SOFTDIR)/main.c
 # Generate app.bin
 	$(LD) $(LDFLAGS) $(WORKDIR)/app/app.bin -T $(SOFTDIR)/app.ld $(WORKDIR)/app/*.o
-
 # Dissassemble sys.bin and save to text file
 	$(DU) -D $(WORKDIR)/app/app.bin > $(WORKDIR)/app/app.bin.txt
 	@echo "INFO: Saved dissassembled app.bin file to ./work/app.bin.txt"
