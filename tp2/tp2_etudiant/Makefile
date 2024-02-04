@@ -12,6 +12,7 @@ WORKDIR = work
 # Source files directory
 SOFTDIR = soft
 
+CCFLAGS = -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I.
 
 .PHONY: clean make app sys
 
@@ -28,20 +29,20 @@ make :
 	
 # Compile C files
 	@echo "Compiling C files"
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/drivers.o $(GIET_SYS_PATH)/drivers.c
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/common.o $(GIET_SYS_PATH)/common.c
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/ctx_handler.o $(GIET_SYS_PATH)/ctx_handler.c
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/irq_handler.o $(GIET_SYS_PATH)/irq_handler.c
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/sys_handler.o $(GIET_SYS_PATH)/sys_handler.c
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/exc_handler.o $(GIET_SYS_PATH)/exc_handler.c
+	$(CC) $(CCFLAGS) -c -o $(WORKDIR)/drivers.o $(GIET_SYS_PATH)/drivers.c
+	$(CC) $(CCFLAGS) -c -o $(WORKDIR)/common.o $(GIET_SYS_PATH)/common.c
+	$(CC) $(CCFLAGS) -c -o $(WORKDIR)/ctx_handler.o $(GIET_SYS_PATH)/ctx_handler.c
+	$(CC) $(CCFLAGS) -c -o $(WORKDIR)/irq_handler.o $(GIET_SYS_PATH)/irq_handler.c
+	$(CC) $(CCFLAGS) -c -o $(WORKDIR)/sys_handler.o $(GIET_SYS_PATH)/sys_handler.c
+	$(CC) $(CCFLAGS) -c -o $(WORKDIR)/exc_handler.o $(GIET_SYS_PATH)/exc_handler.c
 
 app : make
 # Create temporal sub directory
 	@mkdir -p $(WORKDIR)/app
 
 # Compile stdio.c et main.c in ./soft
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_APP_PATH) -I. -c -o $(WORKDIR)/app/main.o $(SOFTDIR)/main.c
-	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_APP_PATH) -I. -c -o $(WORKDIR)/app/stdio.o $(GIET_APP_PATH)/stdio.c
+	$(CC) $(CCFLAGS) -c -o $(WORKDIR)/app/main.o $(SOFTDIR)/main.c
+	$(CC) $(CCFLAGS) -c -o $(WORKDIR)/app/stdio.o $(GIET_APP_PATH)/stdio.c
 
 # Generate app.bin
 	$(LD) -o $(WORKDIR)/app/app.bin -T $(SOFTDIR)/app.ld $(WORKDIR)/app/*.o
