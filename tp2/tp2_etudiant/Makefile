@@ -13,7 +13,7 @@ WORKDIR = work
 SOFTDIR = soft
 
 
-.PHONY: clean
+.PHONY: clean make app sys
 
 all : clean make app sys
 
@@ -22,10 +22,12 @@ make :
 	@mkdir -p $(WORKDIR)
 
 # Compile ASM files
+	@echo "Compiling ASM files"
 	$(AS) -g -mips32 -o $(WORKDIR)/reset.o $(SOFTDIR)/reset.s
 	$(AS) -g -mips32 -o $(WORKDIR)/giet.o $(GIET_SYS_PATH)/giet.s
 	
 # Compile C files
+	@echo "Compiling C files"
 	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/drivers.o $(GIET_SYS_PATH)/drivers.c
 	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/common.o $(GIET_SYS_PATH)/common.c
 	$(CC) -Wall -mno-gpopt -ffreestanding -mips32 -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/ctx_handler.o $(GIET_SYS_PATH)/ctx_handler.c
