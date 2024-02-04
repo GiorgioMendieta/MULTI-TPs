@@ -31,20 +31,21 @@ giet :
 	
 # Compile C files
 	@echo "INFO: Compiling C files"
-	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/drivers.o $(GIET_SYS_PATH)/drivers.c
-	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/common.o $(GIET_SYS_PATH)/common.c
-	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/ctx_handler.o $(GIET_SYS_PATH)/ctx_handler.c
-	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/irq_handler.o $(GIET_SYS_PATH)/irq_handler.c
-	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/sys_handler.o $(GIET_SYS_PATH)/sys_handler.c
-	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/exc_handler.o $(GIET_SYS_PATH)/exc_handler.c
+	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I$(SOFTDIR) -c -o $(WORKDIR)/drivers.o $(GIET_SYS_PATH)/drivers.c
+	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I$(SOFTDIR) -c -o $(WORKDIR)/common.o $(GIET_SYS_PATH)/common.c
+	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I$(SOFTDIR) -c -o $(WORKDIR)/ctx_handler.o $(GIET_SYS_PATH)/ctx_handler.c
+	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I$(SOFTDIR) -c -o $(WORKDIR)/irq_handler.o $(GIET_SYS_PATH)/irq_handler.c
+	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I$(SOFTDIR) -c -o $(WORKDIR)/sys_handler.o $(GIET_SYS_PATH)/sys_handler.c
+	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I$(SOFTDIR) -c -o $(WORKDIR)/exc_handler.o $(GIET_SYS_PATH)/exc_handler.c
 
 app :
+	@echo "INFO: Building app.bin"
 # Create temporal sub directory
 	@mkdir -p $(WORKDIR)/app
 
 # Compile stdio.c et main.c in ./soft
-	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/app/main.o $(SOFTDIR)/main.c
-	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I. -c -o $(WORKDIR)/app/stdio.o $(GIET_APP_PATH)/stdio.c
+	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I$(SOFTDIR) -c -o $(WORKDIR)/app/main.o main.c
+	$(CC) $(CCFLAGS) -I$(GIET_SYS_PATH) -I$(SOFTDIR) -c -o $(WORKDIR)/app/stdio.o $(GIET_APP_PATH)/stdio.c
 
 # Generate app.bin
 	$(LD) -o $(WORKDIR)/app/app.bin -T $(SOFTDIR)/app.ld $(WORKDIR)/app/*.o
@@ -54,6 +55,7 @@ app :
 	$(DU) -D $(WORKDIR)/app/app.bin > $(WORKDIR)/app.bin.txt
 
 sys :
+	@echo "INFO: Building sys.bin"
 # Create temporal sub directory
 	@mkdir -p $(WORKDIR)/sys
 # Generate sys.bin
