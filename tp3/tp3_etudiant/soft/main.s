@@ -8,6 +8,10 @@
 #	The sections names are specific to control the linker.
 #################################################################################
 
+########################
+# .mydata segment
+########################
+
 # Store this segment of data in the .mydata segment, starting at seg_data_base = 0x0100_0000;
         .section 	.mydata
 
@@ -27,6 +31,10 @@ B :	.word	101,102,103,104,105,106,107,108,109,110         # 10 words = 40 bytes
 # @ 0x0100_0180
 C :	.word	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0         # 10 words = 40 bytes
 	.word	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0         # 10 words = 40 bytes
+
+########################
+# .mycode segment
+########################
 
 # Store this segment of code in the .mycode segment, starting at seg_code_base = 0x0040_0000
         .section 	.mycode
@@ -48,14 +56,20 @@ loop :
         add  $12, 	$10, 	$11	# $12 <= A[i]+B[i]
         bne  $6, 	$7, 	loop	# fin de boucle ?
         sw   $12, 	252($8)	        # C[i] <= $12
+
+# @ 0x0040_0028
 print:
         la   $4, message
         addi $29,       $29,     -4
         jal  tty_puts
         nop
         addi $29,       $29,     +4
+
+# @ 0x0040_003C
 suicide:	
         jal  exit
         nop
+
+# @ 0x0040_003C
 message:
         .asciiz   "\n!!! vector sum completed !!!\n"
