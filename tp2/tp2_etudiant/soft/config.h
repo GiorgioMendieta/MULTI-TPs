@@ -4,6 +4,6 @@
 #define NB_PROCS 1
 #define NB_MAXTASKS 1
 
-#define NO_HARD_CC 0 // Ask why
+#define NO_HARD_CC 0 // No cache coherency (monoprocessor)
 
 #endif
