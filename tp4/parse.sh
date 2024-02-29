@@ -4,7 +4,7 @@
 cd Stats
 
 # CSV headers
-headers="CYCLE,IMISS RATE,DMISS RATE,CPI"
+headers="CYCLE, IMISS RATE, IMISS COST, DMISS RATE, DMISS COST, CPI"
 
 for dir in */; do
     # Set the output CSV file name for each directory
@@ -34,9 +34,11 @@ for dir in */; do
         awk '/^[-*]/ { \
                 if (/cycle/) cycle=$NF;  \
                 if (/IMISS RATE/) imr=$NF;  \
+                if (/IMISS COST/) imc=$NF;  \
                 if (/DMISS RATE/) dmr=$NF;  \
+                if (/DMISS COST/) dmc=$NF;  \
                 if (/CPI/) cpi=$NF;  \
-                if (/^\*\*\* proc/) print cycle "," imr "," dmr "," cpi}' \
+                if (/^\*\*\* proc/) print cycle ", " imr ", " imc ", " dmr ", " dmc ", " cpi}' \
             "$input_file" >> "$csv_file"
     
         # Get the last line of the CSV file and append it to the results CSV
