@@ -31,7 +31,7 @@ __attribute__((constructor)) void main()
     int line;
     int pixel;
 
-    for (line = 0; line < NLINE; line += 1)
+    for (line = n; line < NLINE; line += nprocs)
     {
         for (pixel = 0; pixel < NPIXEL; pixel += 1)
         {

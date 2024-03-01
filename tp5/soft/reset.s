@@ -14,14 +14,21 @@
 .extern    seg_data_base
 
 .func    reset
-.type   reset, %function
+.type    reset,  %function
 
 reset:
 .set noreorder
 
 # initializes stack pointer
+mfc0  $27,    $15, 1       # Get processor ID
+addiu $27,    $27, 1       # Make the index start at 1 instead of 0
+li    $28,    0x10000      # Size of procesor's "substack" inside the stack segment
+mult  $27,    $28          # Get the substack base address' offset
+mflo  $27                  # Retrieve the lower half
+
 la    $29,    seg_stack_base
-addiu $29,    $29,    0x4000 # stack size = 16 Kbytes
+
+addu $29,    $29,    $27     # stack size = 16 Kbytes (0x4000)
 
 # initializes SR register
 li    $26,    0x0000FF13    
