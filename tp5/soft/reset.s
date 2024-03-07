@@ -19,16 +19,17 @@
 reset:
 .set noreorder
 
-# initializes stack pointer
-mfc0  $27,    $15, 1       # Get processor ID
+# Get processor ID
+mfc0  $27,    $15, 1       # Get proc_id
 addiu $27,    $27, 1       # Make the index start at 1 instead of 0
 li    $28,    0x10000      # Size of procesor's "substack" inside the stack segment
 mult  $27,    $28          # Get the substack base address' offset
 mflo  $27                  # Retrieve the lower half
 
+# initializes stack pointer
 la    $29,    seg_stack_base
-
-addu $29,    $29,    $27     # stack size = 16 Kbytes (0x4000)
+# li    $29,    0x10000
+addu  $29,    $29,    $27     # stack size = 16 Kbytes (0x4000)
 
 # initializes SR register
 li    $26,    0x0000FF13    
@@ -36,7 +37,7 @@ mtc0  $26,    $12            # SR <= 0x0000FF13
 
 # jump to main in user mode
 la    $26,    seg_data_base
-lw    $26,    0($26)         # get the user code entry point 
+lw    $26,    0($26)         # get the user code entry point (main function)
 mtc0  $26,    $14            # write it in EPC register
 eret
 
