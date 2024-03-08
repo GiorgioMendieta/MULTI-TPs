@@ -38,12 +38,8 @@ proc0:
 
         # initializes TIMER[0] PERIOD and RUNNING registers
         la      $29,    seg_timer_base
-        addi    $29,    $29,    0x4    # RUNNING Register address
-        ori     $28,    $28,    0x0001 # bit 0 = 1 (timer on)
-        sw      $28,    0($29)
-
-        ori     $28,    $28,    0xC350 # 50 000 cycles
-        sw      $28,    4($29)
+        li      $28,    50000 # 50 000 cycles
+        sw      $28,    8($29)
 
         # initializes stack pointer for PROC[0]
 	la	$29,	seg_stack_base
@@ -66,6 +62,9 @@ proc1:
         # initializes the ICU[1] MASK register
 
         # initializes TIMER[1] PERIOD and RUNNING registers
+        la      $29,    seg_timer_base
+        li      $28,    100000 # 50 000 cycles
+        sw      $28,    8($29)
 
         # initializes stack pointer for PROC[1]
         la	$29,	seg_stack_base
