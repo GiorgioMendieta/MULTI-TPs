@@ -32,7 +32,7 @@ reset:
 proc0:
         # initialises interrupt vector entries for PROC[0]
 
-        #initializes the ICU[0] MASK register
+        # initializes the ICU[0] MASK register
 
         # initializes TIMER[0] PERIOD and RUNNING registers
 
@@ -54,17 +54,24 @@ proc0:
 proc1:
         # initialises interrupt vector entries for PROC[1]
 
-        #initializes the ICU[1] MASK register
+        # initializes the ICU[1] MASK register
 
         # initializes TIMER[1] PERIOD and RUNNING registers
 
         # initializes stack pointer for PROC[1]
-
+        la	$29,	seg_stack_base
+        li	$27,	0x20000			# stack size = 2*64K
+	addu	$29,	$29,	$27    		# $29 <= seg_stack_base + 2*64K
+        
         # initializes SR register for PROC[1]
+        li	$26,	0x0000FF13	
+       	mtc0	$26,	$12			# SR <= 0x0000FF13
 
         # jump to main in user mode: main[1]
-
-	.set reorder
+        la	$26,	seg_data_base
+        lw	$26,	4($26)			# $26 <= main[1]
+	mtc0	$26,	$14			# write it in EPC register
+	eret
 
 	.set reorder
 
