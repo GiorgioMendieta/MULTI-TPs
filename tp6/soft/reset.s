@@ -19,6 +19,8 @@
 
 	.extern	seg_stack_base
 	.extern	seg_data_base
+        # Activation du timer
+        .extern seg_timer_base
 
 	.func	reset
 	.type   reset, %function
@@ -47,9 +49,9 @@ proc0:
 
 
         # initializes TIMER[0] PERIOD and RUNNING registers
-        #la      $29,    seg_timer_base
-
-        #sw      $27,    ($29)   # 
+        la      $29,    seg_timer_base
+        li      $28,    50000 # 50 000 cycles
+        sw      $28,    8($29)
 
         # initializes stack pointer for PROC[0]
 	la	$29,	seg_stack_base
@@ -81,6 +83,9 @@ proc1:
         # initializes the ICU[1] MASK register
 
         # initializes TIMER[1] PERIOD and RUNNING registers
+        la      $29,    seg_timer_base
+        li      $28,    100000 # 50 000 cycles
+        sw      $28,    8($29)
 
         # initializes stack pointer for PROC[1]
         la	$29,	seg_stack_base
