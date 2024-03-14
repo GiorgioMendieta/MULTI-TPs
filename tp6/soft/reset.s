@@ -19,8 +19,14 @@
 
 	.extern	seg_stack_base
 	.extern	seg_data_base
-        # Activation du timer
+        # Interrupt vector
+        .extern _interrupt_vector
+        # TIM
         .extern seg_timer_base
+        # ICU 
+        .extern seg_icu_base
+        # TTY
+        .extern seg_tty_base
 
 	.func	reset
 	.type   reset, %function
@@ -35,23 +41,27 @@ reset:
 
 proc0:
         # initialises interrupt vector entries for PROC[0]
-        # la      $29,    _interrupt_vector
+        la      $27,    _interrupt_vector
+        la      $28,    _isr_timer
+        sw      $28,    8($27) # Offset = 2 words = 2*4 = 8 (top file line 438)
         # la      $27,    _isr_dma
         # sw      $27,    0($29)
         # la      $27,    _isr_ioc
         # sw      $27,    1($29)
-        la      $27,    _isr_timer
-        sw      $27,    2($29)
         # la      $27,    _isr_tty_get_indexed
         # sw      $27,    3($29)
 
         # initializes the ICU[0] MASK register
 
 
-        # initializes TIMER[0] PERIOD and RUNNING registers
-        la      $29,    seg_timer_base
-        li      $28,    50000 # 50 000 cycles
-        sw      $28,    8($29)
+        la      $26,    seg_timer_base
+        # initializes TIMER[0] PERIOD 
+        li      $27,    50000 # 50 000 cycles
+        sw      $27,    8($26)
+        # initializes TIMER[0] MODE 
+        addiu   $27,    $27, 0x3 # bit 0: 1, bit 1: 1
+        sw      $27,    4($26)
+        
 
         # initializes stack pointer for PROC[0]
 	la	$29,	seg_stack_base
@@ -70,22 +80,19 @@ proc0:
 
 proc1:
         # initialises interrupt vector entries for PROC[1]
-        # la      $29,    _interrupt_vector
-        # la      $27,    _isr_dma
-        # sw      $27,    0($29)
-        # la      $27,    _isr_ioc
-        # sw      $27,    1($29)
-        la      $27,    _isr_timer
-        sw      $27,    4($29)
-        # la      $27,    _isr_tty_get_indexed
-        # sw      $27,    5($29)
+        la      $27,    _interrupt_vector
+        la      $28,    _isr_timer
+        sw      $28,    16($27) # Offset = 4 words = 4*4 = 16
 
         # initializes the ICU[1] MASK register
 
-        # initializes TIMER[1] PERIOD and RUNNING registers
-        la      $29,    seg_timer_base
-        li      $28,    100000 # 50 000 cycles
-        sw      $28,    8($29)
+        la      $26,    seg_timer_base
+        # initializes TIMER[1] PERIOD 
+        li      $27,    100000 # 100 000 cycles
+        sw      $27,    8($26)
+        # initializes TIMER[1] MODE 
+        addiu   $27,    $27, 0x3 # bit 0: 1, bit 1: 1
+        sw      $27,    4($26)
 
         # initializes stack pointer for PROC[1]
         la	$29,	seg_stack_base
