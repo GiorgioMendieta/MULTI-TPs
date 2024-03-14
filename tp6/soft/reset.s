@@ -55,13 +55,13 @@ proc0:
 
         # initializes the ICU[0] MASK register
         la      $26,    seg_icu_base
-        addiu   $27,    $0, 0x4 # Corresponds to TIMER[0] interrupt
+        addiu   $27,    $0, 0x4  # Corresponds to TIMER[0] interrupt
         sw      $27,    8($26)   # Sets the corresponding bits to 1
 
         # initializes TIMER[0] PERIOD and MODE Registers
         la      $26,    seg_timer_base
         # PERIOD Register 
-        li      $27,    50000 # 50 000 cycles
+        li      $27,    50000 # 50 000 cyclesicu.p_irq_in[2icu.p_irq_in[2icu.p_irq_in[2 + 2 * i](signal_irq_tim[i]); + 2 * i](signal_irq_tim[i]); + 2 * i](signal_irq_tim[i]);
         sw      $27,    8($26)
         # MODE Register 
         addiu   $27,    $0, 0x3 # bit 0: 1, bit 1: 1 (OPTIONAL)
