@@ -42,8 +42,10 @@ reset:
 proc0:
         # initialises interrupt vector entries for PROC[0]
         la      $27,    _interrupt_vector
+        # Initialize TIMER ISR
         la      $28,    _isr_timer
         sw      $28,    8($27) # Offset = 2 words = 2*4 = 8 (top file line 438)
+        # Initialize 
         # la      $27,    _isr_dma
         # sw      $27,    0($29)
         # la      $27,    _isr_ioc
@@ -52,14 +54,17 @@ proc0:
         # sw      $27,    3($29)
 
         # initializes the ICU[0] MASK register
+        la      $26,    seg_icu_base
+        addiu   $27,    $0, 0x4 # Corresponds to TIMER[0] interrupt
+        sw      $27,    8($26)   # Sets the corresponding bits to 1
 
-
+        # initializes TIMER[0] PERIOD and MODE Registers
         la      $26,    seg_timer_base
-        # initializes TIMER[0] PERIOD 
+        # PERIOD Register 
         li      $27,    50000 # 50 000 cycles
         sw      $27,    8($26)
-        # initializes TIMER[0] MODE 
-        addiu   $27,    $27, 0x3 # bit 0: 1, bit 1: 1
+        # MODE Register 
+        addiu   $27,    $0, 0x3 # bit 0: 1, bit 1: 1 (OPTIONAL)
         sw      $27,    4($26)
         
 
@@ -85,13 +90,16 @@ proc1:
         sw      $28,    16($27) # Offset = 4 words = 4*4 = 16
 
         # initializes the ICU[1] MASK register
+        la      $26,    seg_icu_base
+        addiu   $27,    $0, 0x10 # Corresponds to TIMER[1] interrupt
+        sw      $27,    8($26)   # Sets the corresponding bits to 1
 
         la      $26,    seg_timer_base
         # initializes TIMER[1] PERIOD 
         li      $27,    100000 # 100 000 cycles
         sw      $27,    8($26)
         # initializes TIMER[1] MODE 
-        addiu   $27,    $27, 0x3 # bit 0: 1, bit 1: 1
+        addiu   $27,    $27, 0x3 # bit 0: 1, bit 1: 1 (OPTIONAL)
         sw      $27,    4($26)
 
         # initializes stack pointer for PROC[1]
