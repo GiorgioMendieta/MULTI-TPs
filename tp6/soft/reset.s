@@ -14,6 +14,8 @@
 #################################################################################
 		
 	.section .reset,"ax",@progbits
+        
+        .extern seg_timer_base
 
 	.extern	seg_stack_base
 	.extern	seg_data_base
@@ -31,10 +33,23 @@ reset:
 
 proc0:
         # initialises interrupt vector entries for PROC[0]
+        # la      $29,    _interrupt_vector
+        # la      $27,    _isr_dma
+        # sw      $27,    0($29)
+        # la      $27,    _isr_ioc
+        # sw      $27,    1($29)
+        la      $27,    _isr_timer
+        sw      $27,    2($29)
+        # la      $27,    _isr_tty_get_indexed
+        # sw      $27,    3($29)
 
         # initializes the ICU[0] MASK register
 
+
         # initializes TIMER[0] PERIOD and RUNNING registers
+        #la      $29,    seg_timer_base
+
+        #sw      $27,    ($29)   # 
 
         # initializes stack pointer for PROC[0]
 	la	$29,	seg_stack_base
@@ -53,6 +68,15 @@ proc0:
 
 proc1:
         # initialises interrupt vector entries for PROC[1]
+        # la      $29,    _interrupt_vector
+        # la      $27,    _isr_dma
+        # sw      $27,    0($29)
+        # la      $27,    _isr_ioc
+        # sw      $27,    1($29)
+        la      $27,    _isr_timer
+        sw      $27,    4($29)
+        # la      $27,    _isr_tty_get_indexed
+        # sw      $27,    5($29)
 
         # initializes the ICU[1] MASK register
 
