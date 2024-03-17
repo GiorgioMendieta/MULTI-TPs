@@ -43,26 +43,26 @@ reset:
 
 proc0:
         # initialises interrupt vector entries for PROC[0]
-        la      $27,    _interrupt_vector
+        la      $7,    _interrupt_vector
         # Initialize TIMER ISR
         la      $8,    _isr_timer
-        sw      $8,    8($27) # Offset = 2 words = 2*4 = 8 (top file line 438)
+        sw      $8,    8($7) # Offset = 2 words = 2*4 = 8 (top file line 438)
         # initializes the ICU[0] MASK register
         la      $8,    seg_icu_base
-        addiu   $9,    $0, 0x4  # Corresponds to TIMER[0] interrupt (0100)
-        sw      $9,    8($28)   # Sets the corresponding bits 
+        addiu   $9,    $0, 0xC  # Corresponds to TIMER[0] and TTY[0] interrupts (0b1100)
+        sw      $9,    8($8)    # Sets the corresponding bits 
         # Initialize the TTY[0] ISR
         la      $8,     _isr_tty_get
-        sw      $8,    12($27)   
+        sw      $8,    12($7)   
 
         # Initializes TIMER[0] PERIOD and MODE Registers
-        la      $26,    seg_timer_base
+        la      $7,    seg_timer_base
         # PERIOD Register 
-        li      $27,    50000  # Load 50 000 cycles into the period register
-        sw      $27,    8($26)
+        li      $8,    50000  # Load 50 000 cycles into the period register
+        sw      $8,    8($7)
         # MODE Register 
-        addiu   $27,    $0, 0x3 # bit 0: 1, bit 1: 1
-        sw      $27,    4($26)
+        addiu   $8,    $0, 0x3 # bit 0: 1, bit 1: 1
+        sw      $8,    4($7)
 
         # initializes stack pointer for PROC[0]
 	la	$29,	seg_stack_base
@@ -81,25 +81,25 @@ proc0:
 
 proc1:
         # initialises interrupt vector entries for PROC[0]
-        la      $27,    _interrupt_vector
+        la      $7,    _interrupt_vector
         # Initialize TIMER ISR
         la      $8,    _isr_timer
-        sw      $8,    0x10($27) # Offset = 2 words = 2*4 = 8 (top file line 438)
+        sw      $8,    0x10($7) # Offset = 2 words = 2*4 = 8 (top file line 438)
         # initializes the ICU[0] MASK register
         la      $8,    seg_icu_base
-        addiu   $9,    $0, 0x10  # Corresponds to TIMER[0] interrupt (0100)
-        sw      $9,    0x18($28)   # Sets the corresponding bits 
+        addiu   $9,    $0, 0x30  # Corresponds to TIMER[1] and TTY[1] interrupts (0b0011 0000)
+        sw      $9,    0x18($8)  # Sets the corresponding bits 
         # Initialize the TTY[0] ISR
         la      $8,     _isr_tty_get
-        sw      $8,    0x14($27)   
+        sw      $8,    0x14($7)   
 
-        la      $26,    seg_timer_base
+        la      $7,    seg_timer_base
         # initializes TIMER[1] PERIOD 
-        li      $27,    100000 # 100 000 cycles
-        sw      $27,    0x18($26)
+        li      $8,    100000 # 100 000 cycles
+        sw      $8,    0x18($7)
         # initializes TIMER[1] MODE 
-        addiu   $27,    $27, 0x3 # bit 0: 1, bit 1: 1 (OPTIONAL)
-        sw      $27,    0x14($26)
+        addiu   $8,    $0, 0x3 # bit 0: 1, bit 1: 1 (OPTIONAL)
+        sw      $8,    0x14($7)
 
         # initializes stack pointer for PROC[1]
         la	$29,	seg_stack_base
