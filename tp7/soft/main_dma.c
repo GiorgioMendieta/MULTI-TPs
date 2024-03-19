@@ -1,8 +1,8 @@
 
 #include "stdio.h"
 
-#define NPIXEL 128
-#define NLINE 128
+#define NPIXEL 128 //256
+#define NLINE 128 //256
 
 ///////////////////////////////////////////////////////////////////////////////
 //	main function
@@ -30,11 +30,17 @@ __attribute__((constructor)) void main()
             }
         }
 
-        tty_printf(" - build   OK at cycle %d\n", proctime());
+        // tty_printf(" - build   OK at cycle %d\n", proctime());
 
-        if ((fb_write(0, BUF, NLINE * NPIXEL) | fb_completed()) != 0)
-        {
-            tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
+        // if ((fb_write(0, BUF, NLINE * NPIXEL) | fb_completed()) != 0)
+        // {
+        //     tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
+        //     exit();
+        // }
+        
+        // Insertion d'une erreur -> lecture à l'adresse 0X0
+        if(fb_write(0, BUF+0x80000000, 100)!=0){
+            tty_printf("\n!!! ERREUR ADRESSE !!!\n");
             exit();
         }
 
