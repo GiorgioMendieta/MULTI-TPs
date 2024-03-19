@@ -29,11 +29,11 @@ reset:
 	# Get processor ID
 	mfc0  $27,    $15,  1       	# Get proc_id
 	andi  $27,	  $27,	0b11		# no more than 4 processors (0x3)
-	ori   $28,    $0,	0x01		# Processor 1 ?
+	ori   $28,    $0,	0x1		# Processor 1 ?
 	beq	  $28,    $27,	proc1
-	ori   $28,    $0,	0x10		# Processor 2 ?
+	ori   $28,    $0,	0x2		# Processor 2 ?
 	beq	  $28,    $27,	proc2
-	ori   $28,    $0,	0x11		# Processor 3 ?
+	ori   $28,    $0,	0x3	# Processor 3 ?
 	beq	  $28,    $27,	proc3
 	nop 							# Delay slot!
 
