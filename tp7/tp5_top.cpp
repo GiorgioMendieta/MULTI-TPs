@@ -27,8 +27,8 @@
 // These values can be modified on the command Line
 
 #define NPROCS       1    // number of processors
-#define FB_NPIXEL    256    // Frame buffer width
-#define FB_NLINE     256    // Frame buffer heigth
+#define FB_NPIXEL    128    // Frame buffer width
+#define FB_NLINE     128    // Frame buffer heigth
 #define BLOCK_SIZE   512    // IOC block size
 #define IOC_LATENCY  1000    // disk latency
 #define RAM_LATENCY  0    // ram latency
