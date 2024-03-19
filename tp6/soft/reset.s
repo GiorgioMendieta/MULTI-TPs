@@ -23,10 +23,12 @@
         .extern _interrupt_vector
         # TIM
         .extern seg_timer_base
+        .extern _isr_timer
         # ICU 
         .extern seg_icu_base
         # TTY
         .extern seg_tty_base
+        .extern _isr_tty_get
 
 	.func	reset
 	.type   reset, %function
@@ -41,32 +43,26 @@ reset:
 
 proc0:
         # initialises interrupt vector entries for PROC[0]
-        la      $27,    _interrupt_vector
+        la      $7,    _interrupt_vector
         # Initialize TIMER ISR
-        la      $28,    _isr_timer
-        sw      $28,    8($27) # Offset = 2 words = 2*4 = 8 (top file line 438)
-        # Initialize 
-        # la      $27,    _isr_dma
-        # sw      $27,    0($29)
-        # la      $27,    _isr_ioc
-        # sw      $27,    1($29)
-        # la      $27,    _isr_tty_get_indexed
-        # sw      $27,    3($29)
-
+        la      $8,    _isr_timer
+        sw      $8,    8($7) # Offset = 2 words = 2*4 = 8 (top file line 438)
         # initializes the ICU[0] MASK register
-        la      $26,    seg_icu_base
-        addiu   $27,    $0, 0x4  # Corresponds to TIMER[0] interrupt
-        sw      $27,    8($26)   # Sets the corresponding bits to 1
+        la      $8,    seg_icu_base
+        addiu   $9,    $0, 0xC  # Corresponds to TIMER[0] and TTY[0] interrupts (0b1100)
+        sw      $9,    8($8)    # Sets the corresponding bits 
+        # Initialize the TTY[0] ISR
+        la      $8,     _isr_tty_get
+        sw      $8,    12($7)   
 
-        # initializes TIMER[0] PERIOD and MODE Registers
-        la      $26,    seg_timer_base
+        # Initializes TIMER[0] PERIOD and MODE Registers
+        la      $7,    seg_timer_base
         # PERIOD Register 
-        li      $27,    50000 # 50 000 cyclesicu.p_irq_in[2icu.p_irq_in[2icu.p_irq_in[2 + 2 * i](signal_irq_tim[i]); + 2 * i](signal_irq_tim[i]); + 2 * i](signal_irq_tim[i]);
-        sw      $27,    8($26)
+        li      $8,    50000  # Load 50 000 cycles into the period register
+        sw      $8,    8($7)
         # MODE Register 
-        addiu   $27,    $0, 0x3 # bit 0: 1, bit 1: 1 (OPTIONAL)
-        sw      $27,    4($26)
-        
+        addiu   $8,    $0, 0x3 # bit 0: 1, bit 1: 1
+        sw      $8,    4($7)
 
         # initializes stack pointer for PROC[0]
 	la	$29,	seg_stack_base
@@ -84,23 +80,26 @@ proc0:
 	eret
 
 proc1:
-        # initialises interrupt vector entries for PROC[1]
-        la      $27,    _interrupt_vector
-        la      $28,    _isr_timer
-        sw      $28,    16($27) # Offset = 4 words = 4*4 = 16
+        # initialises interrupt vector entries for PROC[0]
+        la      $7,    _interrupt_vector
+        # Initialize TIMER ISR
+        la      $8,    _isr_timer
+        sw      $8,    0x10($7) # Offset = 2 words = 2*4 = 8 (top file line 438)
+        # initializes the ICU[0] MASK register
+        la      $8,    seg_icu_base
+        addiu   $9,    $0, 0x30  # Corresponds to TIMER[1] and TTY[1] interrupts (0b0011 0000)
+        sw      $9,    0x18($8)  # Sets the corresponding bits 
+        # Initialize the TTY[0] ISR
+        la      $8,     _isr_tty_get
+        sw      $8,    0x14($7)   
 
-        # initializes the ICU[1] MASK register
-        la      $26,    seg_icu_base
-        addiu   $27,    $0, 0x10 # Corresponds to TIMER[1] interrupt
-        sw      $27,    8($26)   # Sets the corresponding bits to 1
-
-        la      $26,    seg_timer_base
+        la      $7,    seg_timer_base
         # initializes TIMER[1] PERIOD 
-        li      $27,    100000 # 100 000 cycles
-        sw      $27,    8($26)
+        li      $8,    100000 # 100 000 cycles
+        sw      $8,    0x18($7)
         # initializes TIMER[1] MODE 
-        addiu   $27,    $27, 0x3 # bit 0: 1, bit 1: 1 (OPTIONAL)
-        sw      $27,    4($26)
+        addiu   $8,    $0, 0x3 # bit 0: 1, bit 1: 1 (OPTIONAL)
+        sw      $8,    0x14($7)
 
         # initializes stack pointer for PROC[1]
         la	$29,	seg_stack_base
