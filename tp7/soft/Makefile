@@ -13,8 +13,9 @@ SYS_OBJS=  reset.o \
            exc_handler.o 
 
 APP_OBJS=  stdio.o \
-			main_dma.o 
-        #    main_pipe.o
+            main_pipe.o
+#	main_dma.o 
+#	main_4procs.o 
 
 GIET_SYS_PATH= /users/enseig/alain/giet_2011/sys
 GIET_APP_PATH= /users/enseig/alain/giet_2011/app
@@ -77,9 +78,13 @@ main_dma.o: main_dma.c
 	$(CC) $(CFLAGS) -I$(GIET_APP_PATH) -I. -c -o $@ $<
 	$(DU) -D $@ > ./Disassembly/$@.txt
 
-# main_pipe.o: main_pipe.c 
-# 	$(CC) $(CFLAGS) -I$(GIET_APP_PATH) -I. -c -o $@ $<
-# 	$(DU) -D $@ > ./Disassembly/$@.txt
+main_pipe.o: main_pipe.c 
+	$(CC) $(CFLAGS) -I$(GIET_APP_PATH) -I. -c -o $@ $<
+	$(DU) -D $@ > ./Disassembly/$@.txt
+
+main_pipe.o: main_4procs.c 
+	$(CC) $(CFLAGS) -I$(GIET_APP_PATH) -I. -c -o $@ $<
+	$(DU) -D $@ > ./Disassembly/$@.txt
 
 clean:
 	rm -f *.o *.bin ./Disassembly/*.txt core *~
