@@ -4,22 +4,6 @@
 #define NPIXEL 128
 #define NLINE 128
 
-//////////////////////////////////////////////////////////////////////
-//    build function
-//////////////////////////////////////////////////////////////////////
-unsigned char build(unsigned int x, unsigned int y, unsigned int step)
-{
-    if (((x >> step & 0x1) && !(y >> step & 0x1)) ||
-        (!(x >> step & 0x1) && (y >> step & 0x1)))
-    {
-        return 0xFF;
-    }
-    else
-    {
-        return 0;
-    }
-} // end build
-
 ///////////////////////////////////////////////////////////////////////////////
 //	main function
 ///////////////////////////////////////////////////////////////////////////////
@@ -29,25 +13,32 @@ __attribute__((constructor)) void main()
     unsigned char BUF2[NPIXEL * NLINE];
     unsigned int line;
     unsigned int pixel;
-    unsigned int step;
+    unsigned int step; // Square size
     // Processor related variables
     int n = procid();
     int nprocs = NB_PROCS;
+    tty_printf("\n*** procid : %d ***\n\n", n);
+    // barrier_init(1, nprocs); // 1 barrier for all processors
 
     // PROLOGUE
     // Build the first image
     step = 1;
     tty_printf("\n*** damier %d ***\n\n", step);
 
-    for (line = 0; line < NLINE; line += nprocs)
+    for (line = n; line < NLINE; line += nprocs)
     {
         for (pixel = 0; pixel < NPIXEL; pixel++)
         {
-            BUF1[pixel] = build(pixel, line, step);
+            if (((pixel >> step & 0x1) && !(line >> step & 0x1)) ||
+                (!(pixel >> step & 0x1) && (line >> step & 0x1)))
+                BUF1[(NPIXEL * line) + pixel] = 0xFF;
+            else
+                BUF1[(NPIXEL * line) + pixel] = 0x0;
         }
     }
+    // barrier_wait(1);
     tty_printf(" - build   OK at cycle %d\n", proctime());
-
+    
     // Pipeline is loaded, we can start the main loop
     // Build image i and show image i-1
     for (step = 2; step < 6; step++)
@@ -57,36 +48,66 @@ __attribute__((constructor)) void main()
         // Even step
         if (step % 2 == 0)
         {
-            if (fb_write(0, BUF1, NLINE * NPIXEL) != 0)
-            {
-                tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
-            }
+            // if (fb_write(0, BUF1, NLINE * NPIXEL) != 0)
+            // {
+            //     tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
+            // }
 
+            // Only processor 0 can use DMA
+            // Show image i-1
+            if(n == 0){
+                if ((fb_write(0, BUF1, NLINE * NPIXEL) != 0))
+                {
+                    tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
+                }
+            }
             tty_printf(" - display OK at cycle %d\n", proctime());
 
-            for (line = 0; line < NLINE; line += nprocs)
+
+            // Build image i
+            for (line = n; line < NLINE; line += nprocs)
             {
                 for (pixel = 0; pixel < NPIXEL; pixel++)
                 {
-                    BUF2[pixel] = build(pixel, line, step);
+                    if (((pixel >> step & 0x1) && !(line >> step & 0x1)) ||
+                        (!(pixel >> step & 0x1) && (line >> step & 0x1)))
+                        BUF2[(NPIXEL * line) + pixel] = 0xFF;
+                    else
+                        BUF2[(NPIXEL * line) + pixel] = 0x0;
                 }
             }
             tty_printf(" - build   OK at cycle %d\n", proctime());
+
         }
         // Odd step
         else
         {
-            if (fb_write(0, BUF2, NLINE * NPIXEL) != 0)
-            {
-                tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
+            // if (fb_write(0, BUF2, NLINE * NPIXEL) != 0)
+            // {
+            //     tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
+            // }
+
+            // Only processor 0 can use DMA
+            // Show image i-1
+            if(n == 0){
+                if ((fb_write(0, BUF2, NLINE * NPIXEL) != 0))
+                {
+                    tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
+                }
             }
             tty_printf(" - display OK at cycle %d\n", proctime());
 
-            for (line = 0; line < NLINE; line += nprocs)
+
+            // Build image i
+            for (line = n; line < NLINE; line += nprocs)
             {
                 for (pixel = 0; pixel < NPIXEL; pixel++)
                 {
-                    BUF1[pixel] = build(pixel, line, step);
+                    if (((pixel >> step & 0x1) && !(line >> step & 0x1)) ||
+                        (!(pixel >> step & 0x1) && (line >> step & 0x1)))
+                        BUF1[(NPIXEL * line) + pixel] = 0xFF;
+                    else
+                        BUF1[(NPIXEL * line) + pixel] = 0x0;                    
                 }
             }
             tty_printf(" - build   OK at cycle %d\n", proctime());
@@ -94,6 +115,7 @@ __attribute__((constructor)) void main()
 
         if (fb_completed() != 0)
         {
+            //barrier_wait(1);
             tty_printf("\n!!! DMA transfer error !!!\n");
             exit();
         }
@@ -101,9 +123,17 @@ __attribute__((constructor)) void main()
 
     // EPILOGUE
     // Display the last image
-    if (fb_write(0, BUF1, NLINE * NPIXEL) != 0)
-    {
-        tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
+    // if (fb_write(0, BUF1, NLINE * NPIXEL) != 0)
+    // {
+    //     tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
+    // }
+
+    // Only processor 0 can use DMA
+    if(n == 0){
+        if ((fb_write(0, BUF1, NLINE * NPIXEL) != 0))
+        {
+            tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
+        }
     }
     tty_printf(" - display OK at cycle %d\n", proctime());
 
