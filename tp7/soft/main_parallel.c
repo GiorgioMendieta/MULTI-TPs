@@ -17,8 +17,9 @@ __attribute__((constructor)) void main()
     // Processor related variables
     int n = procid();
     int nprocs = NB_PROCS;
+    
     tty_printf("\n*** procid : %d ***\n\n", n);
-    // barrier_init(1, nprocs); // 1 barrier for all processors
+    barrier_init(0, nprocs-1); // 1 barrier for all processors
 
     // PROLOGUE
     // Build the first image
@@ -36,7 +37,7 @@ __attribute__((constructor)) void main()
                 BUF1[(NPIXEL * line) + pixel] = 0x0;
         }
     }
-    // barrier_wait(1);
+    barrier_wait(0);
     tty_printf(" - build   OK at cycle %d\n", proctime());
     
     // Pipeline is loaded, we can start the main loop
@@ -48,11 +49,6 @@ __attribute__((constructor)) void main()
         // Even step
         if (step % 2 == 0)
         {
-            // if (fb_write(0, BUF1, NLINE * NPIXEL) != 0)
-            // {
-            //     tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
-            // }
-
             // Only processor 0 can use DMA
             // Show image i-1
             if(n == 0){
@@ -76,17 +72,13 @@ __attribute__((constructor)) void main()
                         BUF2[(NPIXEL * line) + pixel] = 0x0;
                 }
             }
+            barrier_wait(0);
             tty_printf(" - build   OK at cycle %d\n", proctime());
 
         }
         // Odd step
         else
         {
-            // if (fb_write(0, BUF2, NLINE * NPIXEL) != 0)
-            // {
-            //     tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
-            // }
-
             // Only processor 0 can use DMA
             // Show image i-1
             if(n == 0){
@@ -110,12 +102,12 @@ __attribute__((constructor)) void main()
                         BUF1[(NPIXEL * line) + pixel] = 0x0;                    
                 }
             }
+            barrier_wait(0);
             tty_printf(" - build   OK at cycle %d\n", proctime());
         }
 
         if (fb_completed() != 0)
         {
-            //barrier_wait(1);
             tty_printf("\n!!! DMA transfer error !!!\n");
             exit();
         }
@@ -123,11 +115,6 @@ __attribute__((constructor)) void main()
 
     // EPILOGUE
     // Display the last image
-    // if (fb_write(0, BUF1, NLINE * NPIXEL) != 0)
-    // {
-    //     tty_printf("\n!!! error in fb_syn_write syscall !!!\n");
-    // }
-
     // Only processor 0 can use DMA
     if(n == 0){
         if ((fb_write(0, BUF1, NLINE * NPIXEL) != 0))
