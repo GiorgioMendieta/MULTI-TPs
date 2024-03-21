@@ -9,8 +9,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 __attribute__((constructor)) void main()
 {
-    unsigned char BUF1[NPIXEL * NLINE];
-    unsigned char BUF2[NPIXEL * NLINE];
+    static unsigned char BUF1[NPIXEL * NLINE];
+    static unsigned char BUF2[NPIXEL * NLINE];
     unsigned int line;
     unsigned int pixel;
     unsigned int step; // Square size
@@ -19,6 +19,9 @@ __attribute__((constructor)) void main()
     int nprocs = NB_PROCS;
     
     tty_printf("\n*** procid : %d ***\n\n", n);
+    // tty_printf("\n*** BUF1 address : %d ***\n\n", &BUF1);
+    // tty_printf("\n*** BUF2 address : %d ***\n\n", &BUF2);
+
     barrier_init(0, nprocs-1); // 1 barrier for all processors
 
     // PROLOGUE
@@ -37,7 +40,7 @@ __attribute__((constructor)) void main()
                 BUF1[(NPIXEL * line) + pixel] = 0x0;
         }
     }
-    barrier_wait(0);
+    // barrier_wait(0);
     tty_printf(" - build   OK at cycle %d\n", proctime());
     
     // Pipeline is loaded, we can start the main loop
@@ -72,7 +75,7 @@ __attribute__((constructor)) void main()
                         BUF2[(NPIXEL * line) + pixel] = 0x0;
                 }
             }
-            barrier_wait(0);
+            // barrier_wait(0);
             tty_printf(" - build   OK at cycle %d\n", proctime());
 
         }
@@ -102,7 +105,7 @@ __attribute__((constructor)) void main()
                         BUF1[(NPIXEL * line) + pixel] = 0x0;                    
                 }
             }
-            barrier_wait(0);
+            // barrier_wait(0);
             tty_printf(" - build   OK at cycle %d\n", proctime());
         }
 
@@ -128,4 +131,4 @@ __attribute__((constructor)) void main()
 
     tty_printf("\nFin du programme au cycle = %d\n\n", proctime());
     exit();
-} // end main
+}
