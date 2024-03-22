@@ -1,0 +1,58 @@
+
+reset.o:     file format elf32-littlemips
+
+
+Disassembly of section .reginfo:
+
+00000000 <.reginfo>:
+   0:	3c000000 	lui	zero,0x0
+	...
+
+Disassembly of section .MIPS.abiflags:
+
+00000000 <.MIPS.abiflags>:
+   0:	01200000 	0x1200000
+   4:	01000101 	0x1000101
+	...
+  10:	00000001 	movf	zero,zero,$fcc0
+  14:	00000000 	nop
+
+Disassembly of section .reset:
+
+00000000 <reset>:
+   0:	401b7801 	mfc0	k1,$15,1
+   4:	277b0001 	addiu	k1,k1,1
+   8:	3c1c0004 	lui	gp,0x4
+   c:	037c0018 	mult	k1,gp
+  10:	0000d812 	mflo	k1
+  14:	3c1d0000 	lui	sp,0x0
+  18:	27bd0000 	addiu	sp,sp,0
+  1c:	03bbe821 	addu	sp,sp,k1
+  20:	341aff13 	li	k0,0xff13
+  24:	409a6000 	mtc0	k0,c0_status
+  28:	3c1a0000 	lui	k0,0x0
+  2c:	275a0000 	addiu	k0,k0,0
+  30:	3c1b0000 	lui	k1,0x0
+  34:	277b0000 	addiu	k1,k1,0
+  38:	af5b0000 	sw	k1,0(k0)
+  3c:	3c1b0000 	lui	k1,0x0
+  40:	277b0000 	addiu	k1,k1,0
+  44:	af5b000c 	sw	k1,12(k0)
+  48:	3c1a0000 	lui	k0,0x0
+  4c:	275a0000 	addiu	k0,k0,0
+  50:	275a0000 	addiu	k0,k0,0
+  54:	241b0009 	li	k1,9
+  58:	af5b0008 	sw	k1,8(k0)
+  5c:	3c1a0000 	lui	k0,0x0
+  60:	275a0000 	addiu	k0,k0,0
+  64:	8f5a0000 	lw	k0,0(k0)
+  68:	409a7000 	mtc0	k0,c0_epc
+  6c:	42000018 	eret
+
+Disassembly of section .gnu.attributes:
+
+00000000 <.gnu.attributes>:
+   0:	00000f41 	0xf41
+   4:	756e6700 	jalx	5b99c00 <reset+0x5b99c00>
+   8:	00070100 	sll	zero,a3,0x4
+   c:	01040000 	0x1040000
