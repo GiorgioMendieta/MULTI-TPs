@@ -25,7 +25,7 @@
 	.type   reset, %function
 
 reset:
-       	.set noreorder
+		.set noreorder
 
 # get the processor id and branch
         mfc0	$27,	$15,	1		# get the proc_id
@@ -41,7 +41,7 @@ reset:
         nop
 
 proc0:
-        # initialises interrupt vector entries for PROC[0]
+	# initialises interrupt vector entries for PROC[0]
 	la	$26,	_interrupt_vector
 	la	$27,	_isr_dma
 	sw	$27,	0($26)			# _interrupt_vector[0] <= _isr_dma
@@ -52,24 +52,24 @@ proc0:
 	la	$27,	_isr_tty_get
 	sw	$27,	12($26)			# _interrupt_vector[3] <= _isr_tty_get
 
-        #initializes the ICU[0] MASK register
+	#initializes the ICU[0] MASK register
 	la	$26,	seg_icu_base
-        addiu	$26,	$26,	0		# ICU[0]
-        li  	$27,	TO BE COMPLETED		# IRQ_DMA, IRQ_IOC, IRQ_TIM[0] & IRQ_TTY[0]
-        sw	$27,	8($26)
+	addiu	$26,	$26,	0		# ICU[0]
+	li  	$27,	TO BE COMPLETED		# IRQ_DMA, IRQ_IOC, IRQ_TIM[0] & IRQ_TTY[0]
+	sw	$27,	8($26)
 
-        # initializes stack pointer for PROC[0]
+	# initializes stack pointer for PROC[0]
 	la	$29,	seg_stack_base
-        li	$27,	0x4000		# stack size = 64K
+	li	$27,	0x4000		# stack size = 64K
 	addu	$29,	$29,	$27    		# $29 <= seg_stack_base + 64K
 
-        # initializes SR register for PROC[0]
-       	li	$26,	0x0000FF13	
-       	mtc0	$26,	$12			# SR <= 0x0000FF13
+	# initializes SR register for PROC[0]
+	li	$26,	0x0000FF13	
+	mtc0	$26,	$12			# SR <= 0x0000FF13
 
-        # jump to main in user mode: main[0]
+	# jump to main in user mode: main[0]
 	la	$26,	seg_data_base
-        lw	$26,	0($26)			# $26 <= main[0]
+	lw	$26,	0($26)			# $26 <= main[0]
 	mtc0	$26,	$14			# write it in EPC register
 	eret
 
