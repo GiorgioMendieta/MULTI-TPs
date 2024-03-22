@@ -60,7 +60,7 @@ proc0:
 
 	# initializes stack pointer for PROC[0]
 	la	$29,	seg_stack_base
-	li	$27,	0x4000		# stack size = 64K
+	li	$27,	0x10000		# stack size = 64K
 	addu	$29,	$29,	$27    		# $29 <= seg_stack_base + 64K
 
 	# initializes SR register for PROC[0]
@@ -89,7 +89,7 @@ proc1:
 
         # initializes stack pointer for PROC[1]
 	la	$29,	seg_stack_base
-        li	$27,	0x8000		# stack size = 64K
+        li	$27,	0x20000		# stack size = 64K
 	addu	$29,	$29,	$27    		# $29 <= seg_stack_base + 128K
 
         # initializes SR register for PROC[1]
@@ -118,7 +118,7 @@ proc2:
 
         # initializes stack pointer for PROC[2]
 	la	$29,	seg_stack_base
-        li	$27,	0xC000		# stack size = 64K
+        li	$27,	0x30000		# stack size = 64K
 	addu	$29,	$29,	$27    		# $29 <= seg_stack_base + 192K
 
         # initializes SR register for PROC[2]
@@ -147,7 +147,7 @@ proc3:
 
         # initializes stack pointer for PROC[3]
 	la	$29,	seg_stack_base
-        li	$27,	0x10000		# stack size = 64K
+        li	$27,	0x40000		# stack size = 64K
 	addu	$29,	$29,	$27    		# $29 <= seg_stack_base + 256K
 
         # initializes SR register for PROC[3]
