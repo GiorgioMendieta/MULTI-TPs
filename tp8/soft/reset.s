@@ -55,7 +55,7 @@ proc0:
 	#initializes the ICU[0] MASK register
 	la	$26,	seg_icu_base
 	addiu	$26,	$26,	0		# ICU[0]
-	li  	$27,	TO BE COMPLETED		# IRQ_DMA, IRQ_IOC, IRQ_TIM[0] & IRQ_TTY[0]
+	li  	$27,	0b1111		# IRQ_DMA, IRQ_IOC, IRQ_TIM[0] & IRQ_TTY[0]
 	sw	$27,	8($26)
 
 	# initializes stack pointer for PROC[0]
@@ -84,7 +84,7 @@ proc1:
         #initializes the ICU[1] MASK register
 	la	$26,	seg_icu_base
         addiu	$26,	$26,	32		# ICU[1]
-        li  	$27,	TO BE COMPLETED		# IRQ_TIM[1], IRQ_TTY[1]
+        li  	$27,	0b110000		# IRQ_TIM[1], IRQ_TTY[1]
         sw	$27,	8($26)
 
         # initializes stack pointer for PROC[1]
@@ -113,7 +113,7 @@ proc2:
         #initializes the ICU[2] MASK register
 	la	$26,	seg_icu_base
         addiu	$26,	$26,	64		# ICU[2]
-        li  	$27,	TO BE COMPLETED		# IRQ_TIM[2], IRQ_TTY[2]
+        li  	$27,	0b11000000		# IRQ_TIM[2], IRQ_TTY[2]
         sw	$27,	8($26)
 
         # initializes stack pointer for PROC[2]
@@ -142,7 +142,7 @@ proc3:
         #initializes the ICU[3] MASK register
 	la	$26,	seg_icu_base
         addiu	$26,	$26,	96		# ICU[3]
-        li  	$27,	TO BE COMPLETED		# IRQ_TIM[3], IRQ_TTY[3]
+        li  	$27,	0b1100000000		# IRQ_TIM[3], IRQ_TTY[3]
         sw	$27,	8($26)
 
         # initializes stack pointer for PROC[3]
