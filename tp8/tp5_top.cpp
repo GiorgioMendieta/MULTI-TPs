@@ -39,7 +39,11 @@
 #define DCACHE_SETS 32   // data cache number of sets
 #define DCACHE_WORDS 4   // data cache number of words per line
 #define WBUF_DEPTH 8     // cache write buffer depth
+<<<<<<< HEAD
 #define SNOOP true      // cache snoop activation
+=======
+#define SNOOP true       // cache snoop activation
+>>>>>>> b5fa7349354c40539faec10e059e93316c3be988
 #define DMA_BURST 16     // number of words in a DMA burst
 
 #include <systemc.h>
