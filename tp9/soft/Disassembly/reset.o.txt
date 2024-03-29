@@ -1,0 +1,195 @@
+
+reset.o:     file format elf32-littlemips
+
+
+Disassembly of section .reginfo:
+
+00000000 <.reginfo>:
+   0:	3c000000 	lui	zero,0x0
+	...
+
+Disassembly of section .MIPS.abiflags:
+
+00000000 <.MIPS.abiflags>:
+   0:	01200000 	0x1200000
+   4:	01000101 	0x1000101
+	...
+  10:	00000001 	movf	zero,zero,$fcc0
+  14:	00000000 	nop
+
+Disassembly of section .reset:
+
+00000000 <reset>:
+   0:	401b7801 	mfc0	k1,$15,1
+   4:	337b0007 	andi	k1,k1,0x7
+   8:	241a0000 	li	k0,0
+   c:	137a000f 	beq	k1,k0,4c <proc0>
+  10:	241a0001 	li	k0,1
+  14:	137a002b 	beq	k1,k0,c4 <proc1>
+  18:	241a0002 	li	k0,2
+  1c:	137a0041 	beq	k1,k0,124 <proc2>
+  20:	241a0003 	li	k0,3
+  24:	137a0053 	beq	k1,k0,174 <proc3>
+  28:	241a0004 	li	k0,4
+  2c:	137a0065 	beq	k1,k0,1c4 <proc4>
+  30:	241a0005 	li	k0,5
+  34:	137a0077 	beq	k1,k0,214 <proc5>
+  38:	00000000 	nop
+  3c:	3c1a0000 	lui	k0,0x0
+  40:	275a0000 	addiu	k0,k0,0
+  44:	03400008 	jr	k0
+  48:	00000000 	nop
+
+0000004c <proc0>:
+  4c:	3c1a0000 	lui	k0,0x0
+  50:	275a0000 	addiu	k0,k0,0
+  54:	3c1b0000 	lui	k1,0x0
+  58:	277b0000 	addiu	k1,k1,0
+  5c:	af5b0000 	sw	k1,0(k0)
+  60:	3c1b0000 	lui	k1,0x0
+  64:	277b0000 	addiu	k1,k1,0
+  68:	af5b0004 	sw	k1,4(k0)
+  6c:	3c1b0000 	lui	k1,0x0
+  70:	277b0000 	addiu	k1,k1,0
+  74:	af5b0008 	sw	k1,8(k0)
+  78:	3c1b0000 	lui	k1,0x0
+  7c:	277b0000 	addiu	k1,k1,0
+  80:	af5b000c 	sw	k1,12(k0)
+  84:	3c1a0000 	lui	k0,0x0
+  88:	275a0000 	addiu	k0,k0,0
+  8c:	275a0000 	addiu	k0,k0,0
+  90:	241b000f 	li	k1,15
+  94:	af5b0008 	sw	k1,8(k0)
+  98:	3c1d0000 	lui	sp,0x0
+  9c:	27bd0000 	addiu	sp,sp,0
+  a0:	3c1b0001 	lui	k1,0x1
+  a4:	03bbe821 	addu	sp,sp,k1
+  a8:	341aff13 	li	k0,0xff13
+  ac:	409a6000 	mtc0	k0,c0_status
+  b0:	3c1a0000 	lui	k0,0x0
+  b4:	275a0000 	addiu	k0,k0,0
+  b8:	8f5a0000 	lw	k0,0(k0)
+  bc:	409a7000 	mtc0	k0,c0_epc
+  c0:	42000018 	eret
+
+000000c4 <proc1>:
+  c4:	3c1a0000 	lui	k0,0x0
+  c8:	275a0000 	addiu	k0,k0,0
+  cc:	3c1b0000 	lui	k1,0x0
+  d0:	277b0000 	addiu	k1,k1,0
+  d4:	af5b0010 	sw	k1,16(k0)
+  d8:	3c1b0000 	lui	k1,0x0
+  dc:	277b0000 	addiu	k1,k1,0
+  e0:	af5b0014 	sw	k1,20(k0)
+  e4:	3c1a0000 	lui	k0,0x0
+  e8:	275a0000 	addiu	k0,k0,0
+  ec:	275a0020 	addiu	k0,k0,32
+  f0:	241b0030 	li	k1,48
+  f4:	af5b0008 	sw	k1,8(k0)
+  f8:	3c1d0000 	lui	sp,0x0
+  fc:	27bd0000 	addiu	sp,sp,0
+ 100:	3c1b0002 	lui	k1,0x2
+ 104:	03bbe821 	addu	sp,sp,k1
+ 108:	341aff13 	li	k0,0xff13
+ 10c:	409a6000 	mtc0	k0,c0_status
+ 110:	3c1a0000 	lui	k0,0x0
+ 114:	275a0000 	addiu	k0,k0,0
+ 118:	8f5a0004 	lw	k0,4(k0)
+ 11c:	409a7000 	mtc0	k0,c0_epc
+ 120:	42000018 	eret
+
+00000124 <proc2>:
+ 124:	3c1a0000 	lui	k0,0x0
+ 128:	275a0000 	addiu	k0,k0,0
+ 12c:	3c1b0000 	lui	k1,0x0
+ 130:	277b0000 	addiu	k1,k1,0
+ 134:	af5b0018 	sw	k1,24(k0)
+ 138:	3c1b0000 	lui	k1,0x0
+ 13c:	277b0000 	addiu	k1,k1,0
+ 140:	af5b001c 	sw	k1,28(k0)
+ 144:	3c1a0000 	lui	k0,0x0
+ 148:	275a0000 	addiu	k0,k0,0
+ 14c:	275a0040 	addiu	k0,k0,64
+ 150:	241b00c0 	li	k1,192
+ 154:	af5b0008 	sw	k1,8(k0)
+ 158:	3c1d0000 	lui	sp,0x0
+ 15c:	27bd0000 	addiu	sp,sp,0
+ 160:	3c1b0003 	lui	k1,0x3
+ 164:	03bbe821 	addu	sp,sp,k1
+ 168:	341aff13 	li	k0,0xff13
+ 16c:	409a6000 	mtc0	k0,c0_status
+ 170:	42000018 	eret
+
+00000174 <proc3>:
+ 174:	3c1a0000 	lui	k0,0x0
+ 178:	275a0000 	addiu	k0,k0,0
+ 17c:	3c1b0000 	lui	k1,0x0
+ 180:	277b0000 	addiu	k1,k1,0
+ 184:	af5b0020 	sw	k1,32(k0)
+ 188:	3c1b0000 	lui	k1,0x0
+ 18c:	277b0000 	addiu	k1,k1,0
+ 190:	af5b0024 	sw	k1,36(k0)
+ 194:	3c1a0000 	lui	k0,0x0
+ 198:	275a0000 	addiu	k0,k0,0
+ 19c:	275a0060 	addiu	k0,k0,96
+ 1a0:	241b0300 	li	k1,768
+ 1a4:	af5b0008 	sw	k1,8(k0)
+ 1a8:	3c1d0000 	lui	sp,0x0
+ 1ac:	27bd0000 	addiu	sp,sp,0
+ 1b0:	3c1b0004 	lui	k1,0x4
+ 1b4:	03bbe821 	addu	sp,sp,k1
+ 1b8:	341aff13 	li	k0,0xff13
+ 1bc:	409a6000 	mtc0	k0,c0_status
+ 1c0:	42000018 	eret
+
+000001c4 <proc4>:
+ 1c4:	3c1a0000 	lui	k0,0x0
+ 1c8:	275a0000 	addiu	k0,k0,0
+ 1cc:	3c1b0000 	lui	k1,0x0
+ 1d0:	277b0000 	addiu	k1,k1,0
+ 1d4:	af5b0028 	sw	k1,40(k0)
+ 1d8:	3c1b0000 	lui	k1,0x0
+ 1dc:	277b0000 	addiu	k1,k1,0
+ 1e0:	af5b002c 	sw	k1,44(k0)
+ 1e4:	3c1a0000 	lui	k0,0x0
+ 1e8:	275a0000 	addiu	k0,k0,0
+ 1ec:	275a0080 	addiu	k0,k0,128
+ 1f0:	241b0c00 	li	k1,3072
+ 1f4:	af5b0008 	sw	k1,8(k0)
+ 1f8:	3c1d0000 	lui	sp,0x0
+ 1fc:	27bd0000 	addiu	sp,sp,0
+ 200:	3c1b0005 	lui	k1,0x5
+ 204:	03bbe821 	addu	sp,sp,k1
+ 208:	341aff13 	li	k0,0xff13
+ 20c:	409a6000 	mtc0	k0,c0_status
+ 210:	42000018 	eret
+
+00000214 <proc5>:
+ 214:	3c1a0000 	lui	k0,0x0
+ 218:	275a0000 	addiu	k0,k0,0
+ 21c:	3c1b0000 	lui	k1,0x0
+ 220:	277b0000 	addiu	k1,k1,0
+ 224:	af5b0030 	sw	k1,48(k0)
+ 228:	3c1b0000 	lui	k1,0x0
+ 22c:	277b0000 	addiu	k1,k1,0
+ 230:	af5b0034 	sw	k1,52(k0)
+ 234:	3c1a0000 	lui	k0,0x0
+ 238:	275a0000 	addiu	k0,k0,0
+ 23c:	275a00a0 	addiu	k0,k0,160
+ 240:	241b3000 	li	k1,12288
+ 244:	af5b0008 	sw	k1,8(k0)
+ 248:	3c1d0000 	lui	sp,0x0
+ 24c:	27bd0000 	addiu	sp,sp,0
+ 250:	3c1b0006 	lui	k1,0x6
+ 254:	03bbe821 	addu	sp,sp,k1
+ 258:	341aff13 	li	k0,0xff13
+ 25c:	409a6000 	mtc0	k0,c0_status
+ 260:	42000018 	eret
+
+Disassembly of section .gnu.attributes:
+
+00000000 <.gnu.attributes>:
+   0:	00000f41 	0xf41
+   4:	756e6700 	jalx	5b99c00 <proc5+0x5b999ec>
+   8:	00070100 	sll	zero,a3,0x4
+   c:	01040000 	0x1040000

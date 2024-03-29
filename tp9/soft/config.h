@@ -3,5 +3,6 @@
 
 #define NB_PROCS    2
 #define NB_MAXTASKS 1
+#define NO_HARD_CC  0 // 1: no hardware cache coherency, 0: hardware cache coherency
 
 #endif

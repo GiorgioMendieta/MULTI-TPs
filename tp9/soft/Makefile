@@ -21,7 +21,7 @@ CFLAGS= -Wall -mno-gpopt -ffreestanding -mips32
 
 ## system & application compilation
 
-all: clean sys.bin app.bin
+all: sys.bin app.bin
 
 ## system compilation
 
