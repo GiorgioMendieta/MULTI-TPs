@@ -182,7 +182,7 @@ Disassembly of section .text:
  290:	10000016 	b	2ec <_tty_config+0x84>
  294:	00000000 	nop
  298:	8fc2000c 	lw	v0,12(s8)
- 29c:	2c420002 	sltiu	v0,v0,2
+ 29c:	2c420006 	sltiu	v0,v0,6
  2a0:	14400004 	bnez	v0,2b4 <_tty_config+0x4c>
  2a4:	00000000 	nop
  2a8:	00001025 	move	v0,zero
@@ -1211,22 +1211,24 @@ Disassembly of section .unckdata:
 00000000 <_dma_status>:
 	...
 
-00000008 <_dma_busy>:
+00000018 <_dma_busy>:
+  18:	00000000 	nop
 	...
 
-0000000a <_ioc_status>:
+0000001e <_ioc_status>:
 	...
 
-0000000b <_ioc_done>:
+0000001f <_ioc_done>:
 	...
 
-0000000c <_ioc_lock>:
-   c:	00000000 	nop
+00000020 <_ioc_lock>:
+  20:	00000000 	nop
 
-00000010 <_tty_get_buf>:
-  10:	00000000 	nop
+00000024 <_tty_get_buf>:
+	...
 
-00000014 <_tty_get_full>:
+0000002c <_tty_get_full>:
+  2c:	00000000 	nop
 	...
 
 Disassembly of section .comment:

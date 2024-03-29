@@ -1,7 +1,7 @@
 #include "stdio.h"
 
-#define DEPTH		8
-#define NMAX 		1000
+#define DEPTH		4
+#define NMAX 		50
 
 /******************/
 typedef struct lock
@@ -21,7 +21,9 @@ typedef struct fifo
     lock_t  lock;
 } fifo_t;
 
-volatile fifo_t fifo = { {} , 0 , 0 , 0 , DEPTH };
+volatile fifo_t fifo_A = { {} , 0 , 0 , 0 , DEPTH };
+volatile fifo_t fifo_B = { {} , 0 , 0 , 0 , DEPTH };
+
 
 /************************************************/
 unsigned int atomic_increment( unsigned int*  ptr,
@@ -95,8 +97,8 @@ void fifo_write(fifo_t* fifo, int* val)
             // Advance write pointer (modulo Depth)
             fifo->ptw = (fifo->ptw + 1) % fifo->depth;
             fifo->sts++;
-            done = 1;
             lock_release( (lock_t*)(&fifo->lock) );
+            done = 1;
         }
     }
 }
@@ -122,8 +124,8 @@ void fifo_read(fifo_t* fifo, int* val)
             // Advance ptr (modulo depth)
             fifo->ptr = (fifo->ptr + 1) % fifo->depth;
             fifo->sts--;
-            done = 1;
             lock_release( (lock_t*)(&fifo->lock) );
+            done = 1;
         }
     }
 }
@@ -140,11 +142,11 @@ __attribute__ ((constructor)) void producer()
 
     for(n = 0 ; n < NMAX ; n++) 
     { 
-        //tempo = rand()>>6;
+        tempo = rand()>>6;
         val = n;
-        fifo_write((fifo_t*)&fifo, &val);
-        //for(x = 0 ; x < tempo ; x++) asm volatile ("");
-        //tty_printf("transmitted value : %d      temporisation = %d\n", val, tempo);
+        fifo_write((fifo_t*)&fifo_A, &val);
+        for(x = 0 ; x < tempo ; x++) asm volatile ("");
+        tty_printf("transmitted value : %d      temporisation = %d\n", val, tempo);
     }
 
     tty_printf("\n*** Completing producer at cycle %d ***\n", proctime());
@@ -165,13 +167,36 @@ __attribute__ ((constructor)) void consumer()
     for(n = 0 ; n < NMAX ; n++) 
     { 
         //tempo = rand()>>6;
-        fifo_read((fifo_t*)&fifo, &val);
+        fifo_read((fifo_t*)&fifo_B, &val);
         //for(x = 0 ; x < tempo ; x++) asm volatile ("");
-        //tty_printf("received value : %d      temporisation = %d\n", val, tempo);
+        tty_printf("received value : %d      temporisation = %d\n", val, tempo);
     }
 
     tty_printf("\n*** Completing consumer at cycle %d ***\n", proctime());
     exit();
 
 } // end consumer()
+
+/*******************************************/
+__attribute__ ((constructor)) void router()
+{
+    int n;
+    int x;
+    int tempo = 0;
+    int val;
+
+    tty_printf("*** Starting task router on processor %d ***\n\n", procid());
+
+    while(1){
+        tempo = rand()>>6;
+        fifo_read((fifo_t*)&fifo_A, &val);
+        fifo_write((fifo_t*)&fifo_B, &val);
+        for(x = 0 ; x < tempo ; x++) asm volatile ("");
+        tty_printf("Token number: %d\n", val);
+    }
+
+    tty_printf("\n*** Completing router at cycle %d ***\n", proctime());
+    exit();
+
+} // end router()
 

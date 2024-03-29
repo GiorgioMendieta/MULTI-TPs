@@ -72,7 +72,6 @@ proc0:
 	li	$26,	0x0000FF13	
 	mtc0	$26,	$12			# SR <= 0x0000FF13
 	# jump to main in user mode: main[0]
-
 	la	$26,	seg_data_base
 	lw	$26,	0($26)			# $26 <= main[0]
 	mtc0	$26,	$14			# write it in EPC register
@@ -98,7 +97,6 @@ proc1:
 	# initializes SR register for PROC[1]
 	li	$26,	0x0000FF13	
 	mtc0	$26,	$12			# SR <= 0x0000FF13
-
 	# jump to main in user mode: main[1]
 	la	$26,	seg_data_base
 	lw	$26,	4($26)			# $26 <= main[0]
@@ -124,7 +122,10 @@ proc2:
 	# initializes SR register for PROC[2]
 	li	$26,	0x0000FF13	
 	mtc0	$26,	$12			# SR <= 0x0000FF13
-	# jump to main in user mode: main[0]
+	# jump to main in user mode: main[2]
+	la	$26,	seg_data_base
+	lw	$26,	8($26)			# $26 <= main[2]
+	mtc0	$26,	$14			# write it in EPC register
 	eret
 
 proc3:
@@ -146,7 +147,10 @@ proc3:
 	# initializes SR register for PROC[3]
 	li	$26,	0x0000FF13	
 	mtc0	$26,	$12			# SR <= 0x0000FF13
-	# jump to main in user mode: main[0]
+	# jump to main in user mode: main[2]
+	la	$26,	seg_data_base
+	lw	$26,	8($26)			# $26 <= main[2]
+	mtc0	$26,	$14			# write it in EPC register
 	eret
 
 proc4:
@@ -168,7 +172,10 @@ proc4:
 	# initializes SR register for PROC[4]
 	li	$26,	0x0000FF13	
 	mtc0	$26,	$12			# SR <= 0x0000FF13
-	# jump to main in user mode: main[0]
+	# jump to main in user mode: main[2]
+	la	$26,	seg_data_base
+	lw	$26,	8($26)			# $26 <= main[2]
+	mtc0	$26,	$14			# write it in EPC register
 	eret
 
 proc5:
@@ -190,7 +197,10 @@ proc5:
 	# initializes SR register for PROC[5]
 	li	$26,	0x0000FF13	
 	mtc0	$26,	$12			# SR <= 0x0000FF13
-	# jump to main in user mode: main[0]
+	# jump to main in user mode: main[2]
+	la	$26,	seg_data_base
+	lw	$26,	8($26)			# $26 <= main[2]
+	mtc0	$26,	$14			# write it in EPC register
 	eret
 
 	.set reorder

@@ -12,7 +12,10 @@ SYS_OBJS=  reset.o \
            irq_handler.o \
            exc_handler.o 
 
-APP_OBJS=  stdio.o main_bipro.o 
+APP_OBJS=  stdio.o \
+           main_router.o 
+           # main_fifo.o 
+           # main_bipro.o 
 
 GIET_SYS_PATH= /users/enseig/alain/giet_2011/sys
 GIET_APP_PATH= /users/enseig/alain/giet_2011/app
@@ -71,7 +74,15 @@ stdio.o: $(GIET_APP_PATH)/stdio.c $(GIET_APP_PATH)/stdio.h
 	$(CC) $(CFLAGS) -I$(GIET_APP_PATH) -I. -c -o $@ $<
 	$(DU) -D $@ > ./Disassembly/$@.txt
 
+main_router.o: main_router.c config.h
+	$(CC) $(CFLAGS) -I$(GIET_APP_PATH) -I. -c -o $@ $<
+	$(DU) -D $@ > ./Disassembly/$@.txt
+
 main_bipro.o: main_bipro.c config.h
+	$(CC) $(CFLAGS) -I$(GIET_APP_PATH) -I. -c -o $@ $<
+	$(DU) -D $@ > ./Disassembly/$@.txt
+
+main_fifo.o: main_fifo.c config.h
 	$(CC) $(CFLAGS) -I$(GIET_APP_PATH) -I. -c -o $@ $<
 	$(DU) -D $@ > ./Disassembly/$@.txt
 
