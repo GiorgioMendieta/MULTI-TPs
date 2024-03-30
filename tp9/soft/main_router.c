@@ -87,6 +87,7 @@ void fifo_write(fifo_t *fifo, int *val)
         // and move the pointer forward
         if (fifo->sts == fifo->depth)
         {
+            // If fifo is full, release the lock since it can't write anymore
             lock_release((lock_t *)(&fifo->lock));
         }
         else
@@ -96,7 +97,9 @@ void fifo_write(fifo_t *fifo, int *val)
             // Advance write pointer (modulo Depth)
             fifo->ptw = (fifo->ptw + 1) % fifo->depth;
             fifo->sts++;
+            // Release the lock after writing
             lock_release((lock_t *)(&fifo->lock));
+            // Set done to 1 to exit the loop
             done = 1;
         }
     }
@@ -114,6 +117,7 @@ void fifo_read(fifo_t *fifo, int *val)
         // and move the pointer back
         if (fifo->sts == 0)
         {
+            // If fifo is empty, release the lock since it can't read anything
             lock_release((lock_t *)(&fifo->lock));
         }
         else
@@ -123,7 +127,9 @@ void fifo_read(fifo_t *fifo, int *val)
             // Advance ptr (modulo depth)
             fifo->ptr = (fifo->ptr + 1) % fifo->depth;
             fifo->sts--;
+            // Release the lock after reading
             lock_release((lock_t *)(&fifo->lock));
+            // Set done to 1 to exit the loop
             done = 1;
         }
     }
