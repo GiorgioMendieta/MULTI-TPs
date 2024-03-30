@@ -4,31 +4,31 @@
  * Date : 08/04/2010
  * Copyright : UPMC/LIP6
  ********************************************************
- * This file contains a very simple parallel, 
+ * This file contains a very simple parallel,
  * cooperative application.
- * - The producer task writes a sequence of integer 
+ * - The producer task writes a sequence of integer
  * values in a shared memory buffer BUF, after
  * displaying each value on its private TTY.
- * The parameter PRODUCER_DELAY can be used to 
- * adjust the producer data rate.  
+ * The parameter PRODUCER_DELAY can be used to
+ * adjust the producer data rate.
  * - The consumer task reads those values in the
  * communication buffer, and displays the values on
  * its private TTY.
- * The parameter CONSUMER_DELAY can be used to 
+ * The parameter CONSUMER_DELAY can be used to
  * adjust the consumer data rate.
-*********************************************************/
+ *********************************************************/
 #include "stdio.h"
 
-#define NMAX 		50
+#define NMAX 50
 
-#define PRODUCER_DELAY 	10
-#define CONSUMER_DELAY	1000
+#define PRODUCER_DELAY 10
+#define CONSUMER_DELAY 1000
 
 volatile int BUF = 0;
 volatile int SYNC = 0; // Add volatile keyword to force the variable to be stored in memory
 
 /******************************************/
-__attribute ((constructor)) void producer()
+__attribute((constructor)) void producer()
 {
     int x;
     int n;
@@ -37,14 +37,17 @@ __attribute ((constructor)) void producer()
 
     tty_printf("*** Starting task producer on processor %d ***\n\n", procid());
 
-    for(n = 0 ; n < NMAX ; n++) 
-    { 
-	    for(x = 0 ; x < tempo ; x++) asm volatile ("");
-        while(SYNC != 0){};
-	    BUF = n;
+    for (n = 0; n < NMAX; n++)
+    {
+        for (x = 0; x < tempo; x++)
+            asm volatile("");
+        while (SYNC != 0)
+        {
+        };
+        BUF = n;
         //__sync_synchronize(); // Evite le changement d'ordre par le compilateur
         SYNC = 1;
-        tty_printf("transmitted value : %d     temporisation = %d\n", n , tempo);
+        tty_printf("transmitted value : %d     temporisation = %d\n", n, tempo);
     }
 
     tty_printf("\n*** Completing producer at cycle %d ***\n", proctime());
@@ -53,7 +56,7 @@ __attribute ((constructor)) void producer()
 } // end producer()
 
 /******************************************/
-__attribute ((constructor)) void consumer()
+__attribute((constructor)) void consumer()
 {
     int x;
     int n;
@@ -62,10 +65,13 @@ __attribute ((constructor)) void consumer()
 
     tty_printf("*** Starting task consumer on processor %d ***\n\n", procid());
 
-    for(n = 0 ; n < NMAX ; n++) 
-    { 
-	    for(x = 0 ; x < tempo ; x++) asm volatile (""); 
-        while(SYNC != 1){};
+    for (n = 0; n < NMAX; n++)
+    {
+        for (x = 0; x < tempo; x++)
+            asm volatile("");
+        while (SYNC != 1)
+        {
+        };
         val = BUF;
         //__sync_synchronize();
         SYNC = 0;
@@ -76,4 +82,3 @@ __attribute ((constructor)) void consumer()
     exit();
 
 } // end consumer()
-
