@@ -62,7 +62,7 @@ proc0:
 	#initializes the ICU[0] MASK register
 	la	$26,	seg_icu_base
 	addiu	$26,	$26,	0		# ICU[0]
-	li  	$27,	0b0000001111 		# IRQ_DMA, IRQ_IOC, IRQ_TIM[0] & IRQ_TTY[0]
+	li  	$27,	0b00001111 		# IRQ_DMA, IRQ_IOC, IRQ_TIM[0] & IRQ_TTY[0]
 	sw	$27,	8($26)
 	# initializes stack pointer for PROC[0]
 	la	$29,	seg_stack_base
@@ -73,7 +73,7 @@ proc0:
 	mtc0	$26,	$12			# SR <= 0x0000FF13
 	# jump to main in user mode: main[0]
 	la	$26,	seg_data_base
-	lw	$26,	0($26)			# $26 <= main[0]
+	lw	$26,	0($26)			# $26 <= main[0] (producer)
 	mtc0	$26,	$14			# write it in EPC register
 
 	eret
@@ -88,7 +88,7 @@ proc1:
 	# initializes the ICU[1] MASK register
 	la	$26,	seg_icu_base
 	addiu	$26,	$26,	32		# ICU[1]
-	li  	$27,	0b0000110000 		# IRQ_TIM[1], IRQ_TTY[1]
+	li  	$27,	0b00110000 		# IRQ_TIM[1], IRQ_TTY[1]
 	sw	$27,	8($26)
 	# initializes stack pointer for PROC[1]
 	la	$29,	seg_stack_base
@@ -99,7 +99,7 @@ proc1:
 	mtc0	$26,	$12			# SR <= 0x0000FF13
 	# jump to main in user mode: main[1]
 	la	$26,	seg_data_base
-	lw	$26,	4($26)			# $26 <= main[0]
+	lw	$26,	4($26)			# $26 <= main[1] (consumer)
 	mtc0	$26,	$14			# write it in EPC register
 	
 	eret
@@ -113,7 +113,7 @@ proc2:
 	#initializes the ICU[2] MASK register
 	la	$26,	seg_icu_base
 	addiu	$26,	$26,	64		# ICU[2]
-	li  	$27,	0b0011000000 		# IRQ_TIM[2], IRQ_TTY[2]
+	li  	$27,	0b11000000 		# IRQ_TIM[2], IRQ_TTY[2]
 	sw	$27,	8($26)
 	# initializes stack pointer for PROC[2]
 	la	$29,	seg_stack_base
@@ -124,7 +124,7 @@ proc2:
 	mtc0	$26,	$12			# SR <= 0x0000FF13
 	# jump to main in user mode: main[2]
 	la	$26,	seg_data_base
-	lw	$26,	8($26)			# $26 <= main[2]
+	lw	$26,	8($26)			# $26 <= main[2] (router)
 	mtc0	$26,	$14			# write it in EPC register
 	eret
 
@@ -138,7 +138,7 @@ proc3:
 	#initializes the ICU[3] MASK register
 	la	$26,	seg_icu_base
 	addiu	$26,	$26,	96		# ICU[3]
-	li  	$27,	0b1100000000 		# IRQ_TIM[3], IRQ_TTY[3]
+	li  	$27,	0b001100000000 		# IRQ_TIM[3], IRQ_TTY[3]
 	sw	$27,	8($26)
 	# initializes stack pointer for PROC[3]
 	la	$29,	seg_stack_base
@@ -149,7 +149,7 @@ proc3:
 	mtc0	$26,	$12			# SR <= 0x0000FF13
 	# jump to main in user mode: main[2]
 	la	$26,	seg_data_base
-	lw	$26,	8($26)			# $26 <= main[2]
+	lw	$26,	8($26)			# $26 <= main[2] (router)
 	mtc0	$26,	$14			# write it in EPC register
 	eret
 
@@ -174,7 +174,7 @@ proc4:
 	mtc0	$26,	$12			# SR <= 0x0000FF13
 	# jump to main in user mode: main[2]
 	la	$26,	seg_data_base
-	lw	$26,	8($26)			# $26 <= main[2]
+	lw	$26,	8($26)			# $26 <= main[2] (router)
 	mtc0	$26,	$14			# write it in EPC register
 	eret
 
@@ -199,7 +199,7 @@ proc5:
 	mtc0	$26,	$12			# SR <= 0x0000FF13
 	# jump to main in user mode: main[2]
 	la	$26,	seg_data_base
-	lw	$26,	8($26)			# $26 <= main[2]
+	lw	$26,	8($26)			# $26 <= main[2] (router)
 	mtc0	$26,	$14			# write it in EPC register
 	eret
 

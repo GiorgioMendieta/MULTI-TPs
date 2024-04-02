@@ -85,7 +85,7 @@ void fifo_write(fifo_t *fifo, int *val)
 
         // Verify if fifo is not full so that it can write
         // and move the pointer forward
-        if (fifo->sts == fifo->depth)
+        if (fifo->sts == (fifo->depth - 1))
         {
             // If fifo is full, release the lock since it can't write anymore
             lock_release((lock_t *)(&fifo->lock));
@@ -147,11 +147,11 @@ __attribute__((constructor)) void producer()
 
     for (n = 0; n < NMAX; n++)
     {
-        tempo = rand() >> 6;
+        //tempo = rand() >> 6;
         val = n;
         fifo_write((fifo_t *)&fifo_A, &val);
-        for (x = 0; x < tempo; x++)
-            asm volatile("");
+        //for (x = 0; x < tempo; x++)
+            //asm volatile("");
         tty_printf("transmitted value : %d      temporisation = %d\n", val, tempo);
     }
 
@@ -167,16 +167,30 @@ __attribute__((constructor)) void consumer()
     int x;
     int tempo = 0;
     int val;
+    int array[NMAX];
 
     tty_printf("*** Starting task consumer on processor %d ***\n\n", procid());
 
     for (n = 0; n < NMAX; n++)
     {
-        // tempo = rand()>>6;
+        // Read token from FIFO B
         fifo_read((fifo_t *)&fifo_B, &val);
-        // for(x = 0 ; x < tempo ; x++) asm volatile ("");
+        // Store token in array
+        if (array[val] != val)
+        {
+            array[val] = val;
+        }
         tty_printf("received value : %d      temporisation = %d\n", val, tempo);
     }
+
+    for (n = 0; n < NMAX; n++)
+    {
+        if (array[n] != n)
+        {
+            tty_printf("Error: received value %d is not equal to expected value %d\n", array[n], n);
+        }
+    }
+    tty_printf("\nInfo: all received values are equal to expected values\n");
 
     tty_printf("\n*** Completing consumer at cycle %d ***\n", proctime());
     exit();
@@ -195,12 +209,15 @@ __attribute__((constructor)) void router()
 
     while (1)
     {
-        tempo = rand() >> 6;
+        // Consume token from FIFO A
         fifo_read((fifo_t *)&fifo_A, &val);
-        fifo_write((fifo_t *)&fifo_B, &val);
+        // Display token number
+        tty_printf("Token number: %d\n", val);
+        // Transmit token to FIFO B after a delay
+        tempo = rand() >> 6;
         for (x = 0; x < tempo; x++)
             asm volatile("");
-        tty_printf("Token number: %d\n", val);
+        fifo_write((fifo_t *)&fifo_B, &val);
     }
 
     tty_printf("\n*** Completing router at cycle %d ***\n", proctime());
