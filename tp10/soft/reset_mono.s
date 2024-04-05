@@ -87,24 +87,24 @@ reset:
         la	$8,	tasks_entry_point
 
         # PGCD + 0, Display + 4, Producer + 8, Consumer + 12
-        # Processor 0 (PGCD + 0, Producer + 8)
+        # Processor 0
         lw	$9,     0($7)			# seg_data[0] 
         sw	$9,	0($8)			# set task_entry_point[0]
-        la	$9,     _exit			# seg_data[1]
+        lw	$9,     4($7)			# seg_data[1]
         sw	$9,	4($8)			# set task_entry_point[1]
         lw	$9,     8($7)			# seg_data[2]
         sw	$9,	8($8)			# set task_entry_point[2]
-        la	$9,     _exit			# seg_data[3]
+        lw	$9,     12($7)			# seg_data[3]
         sw	$9,	12($8)			# set task_entry_point[3]
 
-        # Processor 1 (Display + 4, Consumer + 12)
+        # Processor 1
         la	$9,	_exit 
         sw	$9,	16($8)			# set task_entry_point[4]
-        lw	$9,	 4($7) 
+        la	$9,	_exit 
         sw	$9,	20($8)			# set task_entry_point[5] 
         la	$9,	_exit 
         sw	$9,	24($8)			# set task_entry_point[6]
-        lw	$9,	12($7)
+        la	$9,	_exit
         sw	$9,	28($8)			# set task_entry_point[7]
 
         # Processor 2
@@ -131,7 +131,7 @@ reset:
         # we must define the actual number of tasks assigned to each processor
         # this must be consistent with the task_entry_point array above.
         la	$8,	_task_number_array
-        li	$9,	2
+        li	$9,	4
         sb	$9,	0($8)			# set_ task_number_array[0]
         li	$9,	0
         sb	$9,	1($8)			# set _task_number_array[1]
@@ -310,8 +310,8 @@ tasks_entry_point:		# 16 tasks entry points
 	.space	64
 
 icu_masks_array:		# mask for the IRQ routing : indexed by pid
-	.word	0b00000000000011110001000000000000	# ICU_MASK[0] IOC, DMA0, TIM0, TTY0-3
-	.word	0b00000000111100000010000100000001      # ICU_MASK[1]            TIM1, TTY4-7
+	.word	0b00000000000011110001000100000001	# ICU_MASK[0] IOC, DMA0, TIM0, TTY0-3
+	.word	0b00000000111100000010000000000000     # ICU_MASK[1]            TIM1, TTY4-7
 	.word	0b00001111000000000100000000000000    	# ICU_MASK[2]            TIM2, TTY8-11
 	.word	0b11110000000000001000000000000000    	# ICU_MASK[3]            TIM3, TTY12-15
 
