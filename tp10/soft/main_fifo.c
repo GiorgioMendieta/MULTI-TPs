@@ -1,4 +1,5 @@
 #include "stdio.h"
+#include "config.h"
 
 #define DEPTH		4
 #define NMAX 		100
@@ -15,7 +16,7 @@ typedef struct fifo {
 volatile fifo_t fifo = { {},0,0,0,0,DEPTH };
 
 /***********************************/
-inline void lock_acquire(int* lock)
+static inline void lock_acquire(int* lock)
 {
     unsigned int delay = rand()>>8;
     asm volatile (
@@ -40,13 +41,13 @@ inline void lock_acquire(int* lock)
 }
 
 /***********************************/
-inline void lock_release(int* lock)
+static inline void lock_release(int* lock)
 {
     *lock = 0;
 }
 
 /*******************************************/
-inline void fifo_write(fifo_t* fifo, int val)
+static inline void fifo_write(fifo_t* fifo, int val)
 {
     int done = 0;
     while(done == 0)
@@ -67,7 +68,7 @@ inline void fifo_write(fifo_t* fifo, int val)
     }
 }
 /*******************************************/
-inline void fifo_read(fifo_t* fifo, int* val)
+static inline void fifo_read(fifo_t* fifo, int* val)
 {
     int done = 0;
     while(done == 0)

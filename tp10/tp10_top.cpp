@@ -120,7 +120,7 @@ int _main(int argc, char *argv[])
     size_t ncycles = 1000000000;               // number of simulated cycles
     char sys_path[256] = "soft/sys.bin";       // pathname for system code
     char app_path[256] = "soft/app.bin";       // pathname for application code
-    char disk_filename[256] = "to_be_defined"; // pathname for the disk_image
+    char disk_filename[256] = "soft/images.raw"; // pathname for the disk_image
     bool trace_ok = false;                     // debug activated
     size_t from_cycle = 0;                     // debug start cycle
     size_t ram_latency = RAM_LATENCY;          // ram latency
@@ -469,20 +469,20 @@ int _main(int argc, char *argv[])
     // in : unused
     for (size_t x = 1; x < 8; x++)
     {
-        icu.p_irq_in[x](false); // TODO: unused ports
+        icu.p_irq_in[x](signal_irq_false); // TODO: unused ports
     }
     // in : TIMER & DMA
     for (size_t p = 0; p < 4; p++) // Processors
     {
         if (p < nprocs)
         {
-            icu.p_irq_in[8 + p](signal_irq_dma);     // TODO: connect the IRQ_DMA signal
+            icu.p_irq_in[8 + p](signal_irq_dma[p]);     // TODO: connect the IRQ_DMA signal
             icu.p_irq_in[12 + p](signal_irq_tim[p]); // TODO: connect the IRQ_TIM signal
         }
         else
         {
-            icu.p_irq_in[8 + p](false);  // TODO: IRQ_DMA signal not used
-            icu.p_irq_in[12 + p](false); // TODO: IRQ_TIM signal not used
+            icu.p_irq_in[8 + p](signal_irq_false);  // TODO: IRQ_DMA signal not used
+            icu.p_irq_in[12 + p](signal_irq_false); // TODO: IRQ_TIM signal not used
         }
     }
 
@@ -492,9 +492,9 @@ int _main(int argc, char *argv[])
         for (size_t t = 0; t < 4; t++) // Taks
         {
             if ((p < nprocs) and (t < 4))
-                icu.p_irq_in[16 + p * 4 + t](signal_irq_tty_get); // TODO: tty_get or tty_put?
+                icu.p_irq_in[16 + p * 4 + t](signal_irq_tty_get[p]); // TODO: tty_get or tty_put?
             else
-                icu.p_irq_in[16 + p * 4 + t](false); // TODO: IRQ_TTY not used
+                icu.p_irq_in[16 + p * 4 + t](signal_irq_false); // TODO: IRQ_TTY not used
         }
     }
 

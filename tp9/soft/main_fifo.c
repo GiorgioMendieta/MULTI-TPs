@@ -1,4 +1,5 @@
 #include "stdio.h"
+#include "config.h"
 
 #define DEPTH 8
 #define NMAX 1000

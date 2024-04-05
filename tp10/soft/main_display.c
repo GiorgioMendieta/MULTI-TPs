@@ -1,4 +1,5 @@
 #include "stdio.h"
+#include "config.h"
 
 // Nombre de pixels par ligne
 #define NPIXEL 128
@@ -6,7 +7,7 @@
 // Nombre de lignes par image
 #define NLINE  128
 
-// Nombre de bytes par bloc du contrôleur de disque
+// Nombre de bytes par bloc du contrï¿½leur de disque
 #define BLOCK_SIZE 512
 
 // Valeur du seuil
