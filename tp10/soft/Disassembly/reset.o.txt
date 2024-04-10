@@ -41,23 +41,23 @@ Disassembly of section .reset:
   34:	250803e0 	addiu	t0,t0,992
   38:	8ce90000 	lw	t1,0(a3)
   3c:	ad090000 	sw	t1,0(t0)
-  40:	3c090000 	lui	t1,0x0
-  44:	25290000 	addiu	t1,t1,0
-  48:	ad090004 	sw	t1,4(t0)
-  4c:	8ce90008 	lw	t1,8(a3)
+  40:	8ce90008 	lw	t1,8(a3)
+  44:	ad090004 	sw	t1,4(t0)
+  48:	3c090000 	lui	t1,0x0
+  4c:	25290000 	addiu	t1,t1,0
   50:	ad090008 	sw	t1,8(t0)
   54:	3c090000 	lui	t1,0x0
   58:	25290000 	addiu	t1,t1,0
   5c:	ad09000c 	sw	t1,12(t0)
-  60:	3c090000 	lui	t1,0x0
-  64:	25290000 	addiu	t1,t1,0
-  68:	ad090010 	sw	t1,16(t0)
-  6c:	8ce90004 	lw	t1,4(a3)
-  70:	ad090014 	sw	t1,20(t0)
-  74:	3c090000 	lui	t1,0x0
-  78:	25290000 	addiu	t1,t1,0
-  7c:	ad090018 	sw	t1,24(t0)
-  80:	8ce9000c 	lw	t1,12(a3)
+  60:	8ce90004 	lw	t1,4(a3)
+  64:	ad090010 	sw	t1,16(t0)
+  68:	8ce9000c 	lw	t1,12(a3)
+  6c:	ad090014 	sw	t1,20(t0)
+  70:	3c090000 	lui	t1,0x0
+  74:	25290000 	addiu	t1,t1,0
+  78:	ad090018 	sw	t1,24(t0)
+  7c:	3c090000 	lui	t1,0x0
+  80:	25290000 	addiu	t1,t1,0
   84:	ad09001c 	sw	t1,28(t0)
   88:	3c090000 	lui	t1,0x0
   8c:	25290000 	addiu	t1,t1,0
@@ -87,7 +87,7 @@ Disassembly of section .reset:
   ec:	25080000 	addiu	t0,t0,0
   f0:	24090002 	li	t1,2
   f4:	a1090000 	sb	t1,0(t0)
-  f8:	24090000 	li	t1,0
+  f8:	24090002 	li	t1,2
   fc:	a1090001 	sb	t1,1(t0)
  100:	24090000 	li	t1,0
  104:	a1090002 	sb	t1,2(t0)
@@ -310,7 +310,7 @@ Disassembly of section .reset:
 
 00000420 <icu_masks_array>:
  420:	000f1000 	sll	v0,t7,0x0
- 424:	00f02101 	0xf02101
+ 424:	00f02201 	0xf02201
  428:	0f004000 	jal	c010000 <icu_masks_array+0xc00fbe0>
  42c:	f0008000 	0xf0008000
 

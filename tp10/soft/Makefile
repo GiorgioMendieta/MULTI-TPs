@@ -44,6 +44,10 @@ reset_mono.o: reset_mono.s
 	$(AS) -g -mips32 -o $@ $<
 	$(DU) -D $@ > ./Disassembly/$@.txt
 
+reset_2procs.o: reset_2procs.s
+	$(AS) -g -mips32 -o $@ $<
+	$(DU) -D $@ > ./Disassembly/$@.txt
+
 drivers.o: $(GIET_SYS_PATH)/drivers.c $(GIET_SYS_PATH)/drivers.h config.h
 	$(CC) $(CFLAGS) -I$(GIET_SYS_PATH) -I. -c -o $@ $<
 	$(DU) -D $@ > ./Disassembly/$@.txt

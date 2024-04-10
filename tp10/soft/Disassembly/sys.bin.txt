@@ -21,23 +21,23 @@ bfc00030:	3c08bfc0 	lui	t0,0xbfc0
 bfc00034:	250803e0 	addiu	t0,t0,992
 bfc00038:	8ce90000 	lw	t1,0(a3)
 bfc0003c:	ad090000 	sw	t1,0(t0)
-bfc00040:	3c098000 	lui	t1,0x8000
-bfc00044:	252913f0 	addiu	t1,t1,5104
-bfc00048:	ad090004 	sw	t1,4(t0)
-bfc0004c:	8ce90008 	lw	t1,8(a3)
+bfc00040:	8ce90008 	lw	t1,8(a3)
+bfc00044:	ad090004 	sw	t1,4(t0)
+bfc00048:	3c098000 	lui	t1,0x8000
+bfc0004c:	252913f0 	addiu	t1,t1,5104
 bfc00050:	ad090008 	sw	t1,8(t0)
 bfc00054:	3c098000 	lui	t1,0x8000
 bfc00058:	252913f0 	addiu	t1,t1,5104
 bfc0005c:	ad09000c 	sw	t1,12(t0)
-bfc00060:	3c098000 	lui	t1,0x8000
-bfc00064:	252913f0 	addiu	t1,t1,5104
-bfc00068:	ad090010 	sw	t1,16(t0)
-bfc0006c:	8ce90004 	lw	t1,4(a3)
-bfc00070:	ad090014 	sw	t1,20(t0)
-bfc00074:	3c098000 	lui	t1,0x8000
-bfc00078:	252913f0 	addiu	t1,t1,5104
-bfc0007c:	ad090018 	sw	t1,24(t0)
-bfc00080:	8ce9000c 	lw	t1,12(a3)
+bfc00060:	8ce90004 	lw	t1,4(a3)
+bfc00064:	ad090010 	sw	t1,16(t0)
+bfc00068:	8ce9000c 	lw	t1,12(a3)
+bfc0006c:	ad090014 	sw	t1,20(t0)
+bfc00070:	3c098000 	lui	t1,0x8000
+bfc00074:	252913f0 	addiu	t1,t1,5104
+bfc00078:	ad090018 	sw	t1,24(t0)
+bfc0007c:	3c098000 	lui	t1,0x8000
+bfc00080:	252913f0 	addiu	t1,t1,5104
 bfc00084:	ad09001c 	sw	t1,28(t0)
 bfc00088:	3c098000 	lui	t1,0x8000
 bfc0008c:	252913f0 	addiu	t1,t1,5104
@@ -67,7 +67,7 @@ bfc000e8:	3c088200 	lui	t0,0x8200
 bfc000ec:	250803bc 	addiu	t0,t0,956
 bfc000f0:	24090002 	li	t1,2
 bfc000f4:	a1090000 	sb	t1,0(t0)
-bfc000f8:	24090000 	li	t1,0
+bfc000f8:	24090002 	li	t1,2
 bfc000fc:	a1090001 	sb	t1,1(t0)
 bfc00100:	24090000 	li	t1,0
 bfc00104:	a1090002 	sb	t1,2(t0)
@@ -290,7 +290,7 @@ bfc003e0 <tasks_entry_point>:
 
 bfc00420 <icu_masks_array>:
 bfc00420:	000f1000 	sll	v0,t7,0x0
-bfc00424:	00f02101 	0xf02101
+bfc00424:	00f02201 	0xf02201
 bfc00428:	0f004000 	jal	bc010000 <seg_icu_base+0x1d010000>
 bfc0042c:	f0008000 	0xf0008000
 

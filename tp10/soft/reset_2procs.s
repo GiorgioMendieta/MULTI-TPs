@@ -90,21 +90,27 @@ reset:
         # Processor 0 (PGCD + 0, Producer + 8)
         lw	$9,     0($7)			# seg_data[0] 
         sw	$9,	0($8)			# set task_entry_point[0]
+        # la	$9,	_exit 
         lw	$9,     8($7)			# seg_data[1]
         sw	$9,	4($8)			# set task_entry_point[1]
         la	$9,	_exit 
+        # lw	$9,     8($7)			# seg_data[2]
         sw	$9,	8($8)			# set task_entry_point[2]
         la	$9,	_exit 
+        # lw	$9,     12($7)			# seg_data[3]
         sw	$9,	12($8)			# set task_entry_point[3]
 
         # Processor 1 (Display + 4, Consumer + 12)
+        # la	$9,	_exit 
         lw	$9,	 4($7) 
         sw	$9,	16($8)			# set task_entry_point[4]
+        # la	$9,	_exit 
         lw	$9,	12($7) 
         sw	$9,	20($8)			# set task_entry_point[5] 
         la	$9,	_exit 
         sw	$9,	24($8)			# set task_entry_point[6]
         la	$9,	_exit 
+        # lw	$9,	28($7)
         sw	$9,	28($8)			# set task_entry_point[7]
 
         # Processor 2
