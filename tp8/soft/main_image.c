@@ -76,6 +76,7 @@ __attribute__((constructor)) void main()
             tty_printf("\n!!! echec fb_write au cycle : %d !!!\n", proctime());
             exit();
         }
+
         tty_printf("- image affichee au cycle = %d \n", proctime());
 
         base = base + nblocks * nprocs;
