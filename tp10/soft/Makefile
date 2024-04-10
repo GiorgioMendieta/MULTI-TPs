@@ -3,7 +3,7 @@ CC= /opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-gcc
 AS= /opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-as
 DU= /opt/gcc-cross-mipsel/8.2.0/bin/mipsel-unknown-elf-objdump
 
-SYS_OBJS=  reset.o \
+SYS_OBJS=  reset_mono.o \
 	   giet.o \
 	   drivers.o \
 	   common.o \
@@ -37,6 +37,10 @@ giet.o: $(GIET_SYS_PATH)/giet.s
 	$(DU) -D $@ > $@.txt
 
 reset.o: reset.s
+	$(AS) -g -mips32 -o $@ $<
+	$(DU) -D $@ > $@.txt
+
+reset_mono.o: reset_mono.s
 	$(AS) -g -mips32 -o $@ $<
 	$(DU) -D $@ > $@.txt
 
