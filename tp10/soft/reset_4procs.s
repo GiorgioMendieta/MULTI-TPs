@@ -92,9 +92,9 @@ reset:
         sw	$9,	0($8)			# set task_entry_point[0]
         lw	$9,     8($7)			# seg_data[1]
         sw	$9,	4($8)			# set task_entry_point[1]
-        la	$9,	_exit 
+        lw	$9,     0($7)			# seg_data[0] 
         sw	$9,	8($8)			# set task_entry_point[2]
-        la	$9,	_exit 
+        lw	$9,     0($7)			# seg_data[0] 
         sw	$9,	12($8)			# set task_entry_point[3]
 
         # Processor 1 (Display + 4, Consumer + 12)
@@ -102,42 +102,42 @@ reset:
         sw	$9,	16($8)			# set task_entry_point[4]
         lw	$9,	12($7) 
         sw	$9,	20($8)			# set task_entry_point[5] 
-        la	$9,	_exit 
+        lw	$9,	 0($7)
         sw	$9,	24($8)			# set task_entry_point[6]
-        la	$9,	_exit 
+        lw	$9,	 0($7)
         sw	$9,	28($8)			# set task_entry_point[7]
 
         # Processor 2
-        la	$9,	_exit
+        lw	$9,	 0($7)
         sw	$9,	32($8)			# set task_entry_point[8]
-        la	$9,	_exit
+        lw	$9,	 0($7)
         sw	$9,	36($8)			# set task_entry_point[9]
-        la	$9,	_exit
+        lw	$9,	 8($7)
         sw	$9,	40($8)			# set task_entry_point[10]
-        la	$9,	_exit
+        lw	$9,	12($7)
         sw	$9,	44($8)			# set task_entry_point[11]
 
         # Processor 3
-        la	$9,	_exit
+        lw	$9,	 0($7)
         sw	$9,	48($8)			# set task_entry_point[12]
-        la	$9,	_exit
+        lw	$9,	 8($7)
         sw	$9,	52($8)			# set task_entry_point[13] 
-        la	$9,	_exit
+        lw	$9,	 0($7)
         sw	$9,	56($8)			# set task_entry_point[14]
-        la	$9,	_exit
+        lw	$9,	12($7)
         sw	$9,	60($8)			# set task_entry_point[15]
 
         # _task_number_array[] initialization (done by all processors)
         # we must define the actual number of tasks assigned to each processor
         # this must be consistent with the task_entry_point array above.
         la	$8,	_task_number_array
-        li	$9,	2                       # number of tasks per processor
+        li	$9,	4                       # Number of tasks for processor 0
         sb	$9,	0($8)			# set_ task_number_array[0]
-        li	$9,	2
+        li	$9,	4                       # Number of tasks for processor 1
         sb	$9,	1($8)			# set _task_number_array[1]
-        li	$9,	0
+        li	$9,	4                       # Number of tasks for processor 2
         sb	$9,	2($8)			# set _task_number_array[2]
-        li	$9,	0
+        li	$9,	4                       # Number of tasks for processor 3
         sb	$9,	3($8)			# set _task_number_array[3]
 
 	# Each processor checks the number of tasks for himself 

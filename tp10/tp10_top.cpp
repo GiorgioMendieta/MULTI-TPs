@@ -24,7 +24,7 @@
 // Hardware parameters default values
 // These values can be modified on the command Line
 
-#define NPROCS 2         // number of processors
+#define NPROCS 4         // number of processors
 #define FB_NPIXEL 128    // Frame buffer width
 #define FB_NLINE 128     // Frame buffer heigth
 #define BLOCK_SIZE 512   // IOC block size

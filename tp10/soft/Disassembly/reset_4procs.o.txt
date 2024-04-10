@@ -1,0 +1,311 @@
+
+reset_4procs.o:     file format elf32-littlemips
+
+
+Disassembly of section .reginfo:
+
+00000000 <.reginfo>:
+   0:	fc9f8ff0 	sdc3	$31,-28688(a0)
+	...
+
+Disassembly of section .MIPS.abiflags:
+
+00000000 <.MIPS.abiflags>:
+   0:	01200000 	0x1200000
+   4:	01000101 	0x1000101
+	...
+  10:	00000001 	movf	zero,zero,$fcc0
+  14:	00000000 	nop
+
+Disassembly of section .pdr:
+
+00000000 <.pdr>:
+	...
+
+Disassembly of section .reset:
+
+00000000 <reset>:
+   0:	400a7801 	mfc0	t2,$15,1
+   4:	314a00ff 	andi	t2,t2,0xff
+   8:	21510001 	addi	s1,t2,1
+   c:	00118c00 	sll	s1,s1,0x10
+  10:	3c120000 	lui	s2,0x0
+  14:	26520000 	addiu	s2,s2,0
+  18:	0251e821 	addu	sp,s2,s1
+  1c:	294b0004 	slti	t3,t2,4
+  20:	116000b7 	beqz	t3,300 <pid_stop>
+  24:	00000000 	nop
+  28:	3c070000 	lui	a3,0x0
+  2c:	24e70000 	addiu	a3,a3,0
+  30:	3c080000 	lui	t0,0x0
+  34:	250803b0 	addiu	t0,t0,944
+  38:	8ce90000 	lw	t1,0(a3)
+  3c:	ad090000 	sw	t1,0(t0)
+  40:	8ce90008 	lw	t1,8(a3)
+  44:	ad090004 	sw	t1,4(t0)
+  48:	8ce90000 	lw	t1,0(a3)
+  4c:	ad090008 	sw	t1,8(t0)
+  50:	8ce90000 	lw	t1,0(a3)
+  54:	ad09000c 	sw	t1,12(t0)
+  58:	8ce90004 	lw	t1,4(a3)
+  5c:	ad090010 	sw	t1,16(t0)
+  60:	8ce9000c 	lw	t1,12(a3)
+  64:	ad090014 	sw	t1,20(t0)
+  68:	8ce90000 	lw	t1,0(a3)
+  6c:	ad090018 	sw	t1,24(t0)
+  70:	8ce90000 	lw	t1,0(a3)
+  74:	ad09001c 	sw	t1,28(t0)
+  78:	8ce90000 	lw	t1,0(a3)
+  7c:	ad090020 	sw	t1,32(t0)
+  80:	8ce90000 	lw	t1,0(a3)
+  84:	ad090024 	sw	t1,36(t0)
+  88:	8ce90008 	lw	t1,8(a3)
+  8c:	ad090028 	sw	t1,40(t0)
+  90:	8ce9000c 	lw	t1,12(a3)
+  94:	ad09002c 	sw	t1,44(t0)
+  98:	8ce90000 	lw	t1,0(a3)
+  9c:	ad090030 	sw	t1,48(t0)
+  a0:	8ce90008 	lw	t1,8(a3)
+  a4:	ad090034 	sw	t1,52(t0)
+  a8:	8ce90000 	lw	t1,0(a3)
+  ac:	ad090038 	sw	t1,56(t0)
+  b0:	8ce9000c 	lw	t1,12(a3)
+  b4:	ad09003c 	sw	t1,60(t0)
+  b8:	3c080000 	lui	t0,0x0
+  bc:	25080000 	addiu	t0,t0,0
+  c0:	24090004 	li	t1,4
+  c4:	a1090000 	sb	t1,0(t0)
+  c8:	24090004 	li	t1,4
+  cc:	a1090001 	sb	t1,1(t0)
+  d0:	24090004 	li	t1,4
+  d4:	a1090002 	sb	t1,2(t0)
+  d8:	24090004 	li	t1,4
+  dc:	a1090003 	sb	t1,3(t0)
+  e0:	010a8021 	addu	s0,t0,t2
+  e4:	82110000 	lb	s1,0(s0)
+  e8:	2234ffff 	addi	s4,s1,-1
+  ec:	21510001 	addi	s1,t2,1
+  f0:	00118c00 	sll	s1,s1,0x10
+  f4:	3c120000 	lui	s2,0x0
+  f8:	26520000 	addiu	s2,s2,0
+  fc:	0251e821 	addu	sp,s2,s1
+ 100:	2a930004 	slti	s3,s4,4
+ 104:	12600088 	beqz	s3,328 <task_id_stop>
+ 108:	00000000 	nop
+
+0000010c <ctx_loop>:
+ 10c:	1a80001a 	blez	s4,178 <ctx_loop_done>
+ 110:	00000000 	nop
+ 114:	000af080 	sll	s8,t2,0x2
+ 118:	03d4f021 	addu	s8,s8,s4
+ 11c:	001e9a00 	sll	s3,s8,0x8
+ 120:	3c170000 	lui	s7,0x0
+ 124:	26f70000 	addiu	s7,s7,0
+ 128:	02f3b821 	addu	s7,s7,s3
+ 12c:	3410ff13 	li	s0,0xff13
+ 130:	aef00000 	sw	s0,0(s7)
+ 134:	001e8080 	sll	s0,s8,0x2
+ 138:	3c0f0000 	lui	t7,0x0
+ 13c:	25ef03b0 	addiu	t7,t7,944
+ 140:	01f07820 	add	t7,t7,s0
+ 144:	8df00000 	lw	s0,0(t7)
+ 148:	aef00080 	sw	s0,128(s7)
+ 14c:	23cf0001 	addi	t7,s8,1
+ 150:	000f7c00 	sll	t7,t7,0x10
+ 154:	3c100000 	lui	s0,0x0
+ 158:	26100000 	addiu	s0,s0,0
+ 15c:	020f8020 	add	s0,s0,t7
+ 160:	aef00074 	sw	s0,116(s7)
+ 164:	3c100000 	lui	s0,0x0
+ 168:	261002fc 	addiu	s0,s0,764
+ 16c:	aef0007c 	sw	s0,124(s7)
+ 170:	08000043 	j	10c <ctx_loop>
+ 174:	2294ffff 	addi	s4,s4,-1
+
+00000178 <ctx_loop_done>:
+ 178:	3c1a0000 	lui	k0,0x0
+ 17c:	275a0000 	addiu	k0,k0,0
+ 180:	3c1b0000 	lui	k1,0x0
+ 184:	277b0000 	addiu	k1,k1,0
+ 188:	af5b0000 	sw	k1,0(k0)
+ 18c:	3c1b0000 	lui	k1,0x0
+ 190:	277b0000 	addiu	k1,k1,0
+ 194:	af5b0020 	sw	k1,32(k0)
+ 198:	af5b0024 	sw	k1,36(k0)
+ 19c:	af5b0028 	sw	k1,40(k0)
+ 1a0:	af5b002c 	sw	k1,44(k0)
+ 1a4:	3c1b0000 	lui	k1,0x0
+ 1a8:	277b0000 	addiu	k1,k1,0
+ 1ac:	af5b0030 	sw	k1,48(k0)
+ 1b0:	af5b0034 	sw	k1,52(k0)
+ 1b4:	af5b0038 	sw	k1,56(k0)
+ 1b8:	af5b003c 	sw	k1,60(k0)
+ 1bc:	3c1b0000 	lui	k1,0x0
+ 1c0:	277b0000 	addiu	k1,k1,0
+ 1c4:	af5b0040 	sw	k1,64(k0)
+ 1c8:	3c1b0000 	lui	k1,0x0
+ 1cc:	277b0000 	addiu	k1,k1,0
+ 1d0:	af5b0044 	sw	k1,68(k0)
+ 1d4:	3c1b0000 	lui	k1,0x0
+ 1d8:	277b0000 	addiu	k1,k1,0
+ 1dc:	af5b0048 	sw	k1,72(k0)
+ 1e0:	3c1b0000 	lui	k1,0x0
+ 1e4:	277b0000 	addiu	k1,k1,0
+ 1e8:	af5b004c 	sw	k1,76(k0)
+ 1ec:	3c1b0000 	lui	k1,0x0
+ 1f0:	277b0000 	addiu	k1,k1,0
+ 1f4:	af5b0050 	sw	k1,80(k0)
+ 1f8:	3c1b0000 	lui	k1,0x0
+ 1fc:	277b0000 	addiu	k1,k1,0
+ 200:	af5b0054 	sw	k1,84(k0)
+ 204:	3c1b0000 	lui	k1,0x0
+ 208:	277b0000 	addiu	k1,k1,0
+ 20c:	af5b0058 	sw	k1,88(k0)
+ 210:	3c1b0000 	lui	k1,0x0
+ 214:	277b0000 	addiu	k1,k1,0
+ 218:	af5b005c 	sw	k1,92(k0)
+ 21c:	3c1b0000 	lui	k1,0x0
+ 220:	277b0000 	addiu	k1,k1,0
+ 224:	af5b0060 	sw	k1,96(k0)
+ 228:	3c1b0000 	lui	k1,0x0
+ 22c:	277b0000 	addiu	k1,k1,0
+ 230:	af5b0064 	sw	k1,100(k0)
+ 234:	3c1b0000 	lui	k1,0x0
+ 238:	277b0000 	addiu	k1,k1,0
+ 23c:	af5b0068 	sw	k1,104(k0)
+ 240:	3c1b0000 	lui	k1,0x0
+ 244:	277b0000 	addiu	k1,k1,0
+ 248:	af5b006c 	sw	k1,108(k0)
+ 24c:	3c1b0000 	lui	k1,0x0
+ 250:	277b0000 	addiu	k1,k1,0
+ 254:	af5b0070 	sw	k1,112(k0)
+ 258:	3c1b0000 	lui	k1,0x0
+ 25c:	277b0000 	addiu	k1,k1,0
+ 260:	af5b0074 	sw	k1,116(k0)
+ 264:	3c1b0000 	lui	k1,0x0
+ 268:	277b0000 	addiu	k1,k1,0
+ 26c:	af5b0078 	sw	k1,120(k0)
+ 270:	3c1b0000 	lui	k1,0x0
+ 274:	277b0000 	addiu	k1,k1,0
+ 278:	af5b007c 	sw	k1,124(k0)
+ 27c:	000a8940 	sll	s1,t2,0x5
+ 280:	3c100000 	lui	s0,0x0
+ 284:	26100000 	addiu	s0,s0,0
+ 288:	02118021 	addu	s0,s0,s1
+ 28c:	000a9080 	sll	s2,t2,0x2
+ 290:	3c110000 	lui	s1,0x0
+ 294:	263103f0 	addiu	s1,s1,1008
+ 298:	02328821 	addu	s1,s1,s2
+ 29c:	8e310000 	lw	s1,0(s1)
+ 2a0:	ae110008 	sw	s1,8(s0)
+ 2a4:	000a8900 	sll	s1,t2,0x4
+ 2a8:	3c100000 	lui	s0,0x0
+ 2ac:	26100000 	addiu	s0,s0,0
+ 2b0:	02118021 	addu	s0,s0,s1
+ 2b4:	24112710 	li	s1,10000
+ 2b8:	ae110008 	sw	s1,8(s0)
+ 2bc:	24110001 	li	s1,1
+ 2c0:	ae110004 	sw	s1,4(s0)
+ 2c4:	000a8080 	sll	s0,t2,0x2
+ 2c8:	22110001 	addi	s1,s0,1
+ 2cc:	00118c00 	sll	s1,s1,0x10
+ 2d0:	3c120000 	lui	s2,0x0
+ 2d4:	26520000 	addiu	s2,s2,0
+ 2d8:	0251e821 	addu	sp,s2,s1
+ 2dc:	00108880 	sll	s1,s0,0x2
+ 2e0:	3c120000 	lui	s2,0x0
+ 2e4:	265203b0 	addiu	s2,s2,944
+ 2e8:	02519021 	addu	s2,s2,s1
+ 2ec:	8e500000 	lw	s0,0(s2)
+ 2f0:	40907000 	mtc0	s0,c0_epc
+ 2f4:	3410ff13 	li	s0,0xff13
+ 2f8:	40906000 	mtc0	s0,c0_status
+
+000002fc <to_user>:
+ 2fc:	42000018 	eret
+
+00000300 <pid_stop>:
+ 300:	3c1b0000 	lui	k1,0x0
+ 304:	277b0000 	addiu	k1,k1,0
+ 308:	34040000 	li	a0,0x0
+ 30c:	3c050000 	lui	a1,0x0
+ 310:	24a5037f 	addiu	a1,a1,895
+ 314:	0360f809 	jalr	k1
+ 318:	00000000 	nop
+ 31c:	34060030 	li	a2,0x30
+
+00000320 <pid_dead>:
+ 320:	080000c8 	j	320 <pid_dead>
+ 324:	00000000 	nop
+
+00000328 <task_id_stop>:
+ 328:	3c1b0000 	lui	k1,0x0
+ 32c:	277b0000 	addiu	k1,k1,0
+ 330:	34040000 	li	a0,0x0
+ 334:	3c050000 	lui	a1,0x0
+ 338:	24a50350 	addiu	a1,a1,848
+ 33c:	0360f809 	jalr	k1
+ 340:	00000000 	nop
+ 344:	34060030 	li	a2,0x30
+
+00000348 <task_id_dead>:
+ 348:	080000d2 	j	348 <task_id_dead>
+ 34c:	00000000 	nop
+
+00000350 <task_id_message>:
+ 350:	2121210a 	addi	at,t1,8458
+ 354:	73617420 	0x73617420
+ 358:	756e206b 	jalx	5b881ac <icu_masks_array+0x5b87dbc>
+ 35c:	7265626d 	0x7265626d
+ 360:	6f687320 	0x6f687320
+ 364:	20646c75 	addi	a0,v1,27765
+ 368:	31206562 	andi	zero,t1,0x6562
+ 36c:	2c32202c 	sltiu	s2,at,8236
+ 370:	202c3320 	addi	t4,at,13088
+ 374:	3420726f 	ori	zero,at,0x726f
+ 378:	21212020 	addi	at,t1,8224
+ 37c:	 	j	8002884 <icu_masks_array+0x8002494>
+
+0000037f <pid_message>:
+ 37f:	210a      	beqz	s1,396 <pid_message+0x17>
+ 381:	2121      	beqz	s1,3c6 <tasks_entry_point+0x16>
+ 383:	7020      	cmpi	s0,32
+ 385:	6f72      	li	a3,114
+ 387:	6563      	move	v1,v1
+ 389:	7373      	cmpi	v1,115
+ 38b:	726f      	cmpi	v0,111
+ 38d:	6920      	li	s1,32
+ 38f:	2064      	beqz	s0,45a <icu_masks_array+0x6a>
+ 391:	6163      	btnez	45a <icu_masks_array+0x6a>
+ 393:	6e6e      	li	a2,110
+ 395:	746f      	cmpi	a0,111
+ 397:	6220      	sw	ra,128(sp)
+ 399:	2065      	beqz	s0,466 <icu_masks_array+0x76>
+ 39b:	616c      	btnez	476 <icu_masks_array+0x86>
+ 39d:	6772      	move	v1,s2
+ 39f:	7265      	cmpi	v0,101
+ 3a1:	7420      	cmpi	a0,32
+ 3a3:	6168      	btnez	476 <icu_masks_array+0x86>
+ 3a5:	206e      	beqz	s0,484 <icu_masks_array+0x94>
+ 3a7:	2033      	beqz	s0,410 <icu_masks_array+0x20>
+ 3a9:	2121      	beqz	s1,3ee <tasks_entry_point+0x3e>
+ 3ab:	0a21      	la	v0,430 <icu_masks_array+0x40>
+ 3ad:	0000      	addiu	s0,sp,0
+	...
+
+000003b0 <tasks_entry_point>:
+	...
+
+000003f0 <icu_masks_array>:
+ 3f0:	000f1000 	sll	v0,t7,0x0
+ 3f4:	00f02201 	0xf02201
+ 3f8:	0f004000 	jal	c010000 <icu_masks_array+0xc00fc10>
+ 3fc:	f0008000 	0xf0008000
+
+Disassembly of section .gnu.attributes:
+
+00000000 <.gnu.attributes>:
+   0:	00000f41 	0xf41
+   4:	756e6700 	jalx	5b99c00 <icu_masks_array+0x5b99810>
+   8:	00070100 	sll	zero,a3,0x4
+   c:	01040000 	0x1040000
